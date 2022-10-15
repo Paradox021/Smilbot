@@ -1,0 +1,28 @@
+{
+
+    "name": "smilbot",
+
+    "version": "1.0.0",
+
+    "description": "My First Discord Bot",
+
+    "main": "Smilbot.js",
+
+    "author": "Paradox21",
+
+    "dependencies": {
+
+        "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+
+        "discord.js": "^14.6.0",
+
+        "node-fetch": "^1.7.3",
+
+        "save": "^2.9.0",
+
+        "winston": "^3.8.2"
+
+    }
+
+}
+
