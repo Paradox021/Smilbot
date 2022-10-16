@@ -26,7 +26,7 @@ client.on("messageCreate", (message) => {
 
     if(command === 'dados') message.channel.send(lanzaDados())
 
-    if(command === 'quote') inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+quote.author))
+    if(command === 'quote') inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+quote.author||"Anonymous"))
     
     if(command === 'cat') getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
 
