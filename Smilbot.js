@@ -24,7 +24,7 @@ client.on("messageCreate", (message) => {
     
     if(command === 'ping') message.channel.send('pong!')
 
-    if(command === 'roll') message.channel.send(lanzaDados())
+    if(command === 'roll') message.channel.send(rollDice())
 
     if(command === 'quote') inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+quote.author||"Anonymous"))
     
@@ -33,7 +33,7 @@ client.on("messageCreate", (message) => {
 })
 client.login(auth.token)
 
-function lanzaDados(){
+function rollDice(){
     return (Math.floor(Math.random()*101)).toString()
 }
 
