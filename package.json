@@ -9,6 +9,9 @@
     "main": "Smilbot.js",
 
     "author": "Paradox21",
+    "scripts": {
+        "dev": "node ./Smilbot.js"
+      },
 
     "dependencies": {
 

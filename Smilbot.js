@@ -24,7 +24,7 @@ client.on("messageCreate", (message) => {
     
     if(command === 'ping') message.channel.send('pong!')
 
-    if(command === 'dados') message.channel.send(lanzaDados())
+    if(command === 'roll') message.channel.send(lanzaDados())
 
     if(command === 'quote') inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+quote.author||"Anonymous"))
     
