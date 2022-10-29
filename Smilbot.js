@@ -2,7 +2,14 @@ const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permission
 const fetch = require("node-fetch");
 const prefix = '!'
 
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]})
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds, 
+        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildVoiceStates
+    ]
+})
 
 let auth = require('./auth.json');
 
