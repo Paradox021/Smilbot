@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions } = require('discord.js')
 const fetch = require("node-fetch");
-const prefix = '.'
+const prefix = '!'
 const { DisTube } = require('distube')
 
 const client = new Client({
@@ -13,6 +13,7 @@ const client = new Client({
 })
 
 client.distube = new DisTube(client, {
+    leaveOnEmpty: true,
     leaveOnStop: true,
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
@@ -57,6 +58,11 @@ client.on("messageCreate", (message) => {
             client.distube.stop(message);
             message.channel.send("Stopped the queue!");
     }
+
+    if (command == "skip")
+        client.distube.skip(message);
+
+    
 })
 client.login(auth.token)
 
@@ -65,6 +71,8 @@ client.distube
     .on('playSong', (queue, song) =>
         queue.textChannel.send(`Now playing: \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}`)
     )
+    .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
+    .on("finish", queue => queue.textChannel.send("No more song in queue"))
 
 
 function rollDice(){
