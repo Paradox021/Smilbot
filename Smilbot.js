@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions } = require('discord.js')
 const fetch = require("node-fetch");
-const prefix = '!'
+const prefix = '.'
 const { DisTube } = require('distube')
 
 const client = new Client({
@@ -21,34 +21,20 @@ client.distube = new DisTube(client, {
     emitAddListWhenCreatingQueue: false
   })
 
-let auth = require('./auth.json');
-
-client.on("ready", () => {
-    console.log(`bot is online as ${client.user.tag}!`)
-
-    client.user.setActivity(`busy being Smilbot!!`)
-})
-
-client.on("messageCreate", (message) => {
-    if(!message.content.startsWith(prefix) || message.author.bot) return
-
-    const args = message.content.slice(prefix.length).split(/ +/)
-
-    const command = args.shift().toLowerCase()
-    
-    if(command === 'ping') 
+const commands = {
+    'ping': message => {
         message.channel.send('pong!')
-
-    if(command === 'roll') 
+    },
+    'roll': message => {
         message.channel.send(rollDice())
-
-    if(command === 'quote') 
+    },
+    'quote': message => {
         inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+quote.author||"Anonymous"))
-    
-    if(command === 'cat') 
+    },
+    'cat': message => {
         getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
-
-    if (command == "play"){
+    },
+    'play': (message, args) =>{
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
             return;
@@ -58,10 +44,8 @@ client.on("messageCreate", (message) => {
                 textChannel: message.channel,
                 message
         })
-    }
-        
-
-    if (command == "stop") {
+    },
+    'stop' : message => {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
             return;
@@ -72,10 +56,8 @@ client.on("messageCreate", (message) => {
         } catch (error) {
             console.log("hola")
         }
-        
-    }
-
-    if (command == "skip"){
+    },
+    'skip': message => {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
             return;
@@ -93,8 +75,25 @@ client.on("messageCreate", (message) => {
         } catch (e) {
             console.error(e.name, e.message)
         }
-        
     }
+}
+
+let auth = require('./auth.json');
+
+client.on("ready", () => {
+    console.log(`bot is online as ${client.user.tag}!`)
+
+    client.user.setActivity(`busy being Smilbot!!`)
+})
+
+client.on("messageCreate", (message) => {
+    if(!message.content.startsWith(prefix) || message.author.bot) return
+
+    const args = message.content.slice(prefix.length).split(/ +/)
+
+    const command = args.shift().toLowerCase()
+    
+    commands.hasOwnProperty(command)&&commands[command](message, args)
     
 })
 client.login(auth.token)
