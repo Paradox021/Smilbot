@@ -16,6 +16,7 @@ client.distube = new DisTube(client, {
     leaveOnEmpty: true,
     leaveOnStop: true,
     emitNewSongOnly: true,
+    leaveOnFinish: true,
     emitAddSongWhenCreatingQueue: false,
     emitAddListWhenCreatingQueue: false
   })
@@ -47,21 +48,53 @@ client.on("messageCreate", (message) => {
     if(command === 'cat') 
         getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
 
-    if (command == "play")
+    if (command == "play"){
+        if (!message.member.voice.channel) {
+            message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+            return;
+        }
         client.distube.play(message.member.voice.channel, args.join(" "), {
-            member: message.member,
-            textChannel: message.channel,
-            message
+                member: message.member,
+                textChannel: message.channel,
+                message
         })
+    }
+        
 
     if (command == "stop") {
+        if (!message.member.voice.channel) {
+            message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+            return;
+        }
+        try {
             client.distube.stop(message);
             message.channel.send("Stopped the queue!");
+        } catch (error) {
+            console.log("hola")
+        }
+        
     }
 
-    if (command == "skip")
-        client.distube.skip(message);
+    if (command == "skip"){
+        if (!message.member.voice.channel) {
+            message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+            return;
+        }
 
+        try {
+
+            if(client.distube.getQueue(message).songs.length <= 1){
+                message.channel.send("No more songs in queue.")
+                return
+            }
+            
+            client.distube.skip(message);
+            message.channel.send("Song skipped!");
+        } catch (e) {
+            console.error(e.name, e.message)
+        }
+        
+    }
     
 })
 client.login(auth.token)
@@ -73,7 +106,7 @@ client.distube
     )
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
-
+    .on("addSong", (queue, song) => queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`))
 
 function rollDice(){
     return (Math.floor(Math.random()*101)).toString()
