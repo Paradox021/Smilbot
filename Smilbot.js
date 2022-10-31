@@ -54,7 +54,7 @@ const commands = {
             client.distube.stop(message);
             message.channel.send("Stopped the queue!");
         } catch (error) {
-            console.log("hola")
+            console.error(e.name, e.message)
         }
     },
     'skip': message => {
