@@ -66,7 +66,7 @@ const commands = {
         try {
 
             if(client.distube.getQueue(message).songs.length <= 1){
-                message.channel.send("No more songs in queue.")
+                message.channel.send("Mmm.. . soo bascilly. . ther e no morr songs to skip...")
                 return
             }
             
