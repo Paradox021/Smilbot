@@ -29,7 +29,7 @@ const commands = {
         message.channel.send(rollDice())
     },
     'quote': message => {
-        inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+quote.author||"Anonymous"))
+        inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+(quote.author||"Anonymous")))
     },
     'cat': message => {
         getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
