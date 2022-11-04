@@ -2,6 +2,8 @@ const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permission
 const fetch = require("node-fetch");
 const prefix = '.'
 const { DisTube } = require('distube')
+const welcomeID = '365884726298542082';
+let welcome = false;
 
 const client = new Client({
     intents: [
@@ -19,11 +21,24 @@ client.distube = new DisTube(client, {
     leaveOnFinish: true,
     emitAddSongWhenCreatingQueue: false,
     emitAddListWhenCreatingQueue: false
-  })
+})
 
 const commands = {
     'ping': message => {
         message.channel.send('pong!')
+    },
+    'welcome': (message, args) => {
+        if(args[0].toLowerCase() == 'yes'){
+            welcome = true;
+            message.channel.send('Welcome message enabled')
+        }
+        if(args[0].toLowerCase() == 'no'){
+            welcome = false;
+            message.channel.send('Welcome message disabled')
+        }
+        if(args[0].toLowerCase() == 'show'){
+            message.channel.send('Welcome:'+welcome)
+        }
     },
     'roll': message => {
         message.channel.send(rollDice())
@@ -104,6 +119,16 @@ client.on("messageCreate", (message) => {
     commands.hasOwnProperty(command)&&commands[command](message, args)
     
 })
+
+client.on('guildMemberAdd', member => {
+    if(!welcome){
+        return
+    }
+    const welcomeMessage = `Welcome <@${member.id}> to our server!`;
+    const channel = member.guild.channels.cache.get(welcomeID);
+    channel.send(welcomeMessage);
+})
+
 client.login(auth.token)
 
 
