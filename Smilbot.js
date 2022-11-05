@@ -121,7 +121,7 @@ const commands = {
       
 }
 
-let auth = require('./auth.json');
+//let auth = require('./auth.json');
 
 client.on("ready", () => {
     console.log(`bot is online as ${client.user.tag}!`)
@@ -149,8 +149,8 @@ client.on('guildMemberAdd', member => {
     channel.send(welcomeMessage);
 })
 
-client.login(auth.token)
-
+//client.login(auth.token)
+client.login(process.env.token);
 
 client.distube
     .on('playSong', (queue, song) =>
