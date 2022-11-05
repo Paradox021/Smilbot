@@ -58,14 +58,18 @@ const commands = {
     'play':async (message, args) =>{
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+            message.delete()
             return;
         }
         try {
+            
             await client.distube.play(message.member.voice.channel, args.join(" "), {
                 member: message.member,
                 textChannel: message.channel,
                 message
             })
+            message.delete()
+
         } catch (e) {
             console.error(e.name, e.message)
         }
@@ -73,11 +77,13 @@ const commands = {
     'stop' : message => {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+            message.delete()
             return;
         }
         try {
             client.distube.stop(message);
             message.channel.send("Stopped the queue!");
+            message.delete()
         } catch (error) {
             console.error(e.name, e.message)
         }
@@ -85,6 +91,7 @@ const commands = {
     'skip': async message => {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+            message.delete()
             return;
         }
 
@@ -92,11 +99,13 @@ const commands = {
 
             if(client.distube.getQueue(message).songs.length <= 1){
                 message.channel.send("Mmm.. . soo bascilly. . ther e no morr songs to skip...")
+                message.delete()
                 return
             }
             
             await client.distube.skip(message);
             message.channel.send("Song skipped!");
+            message.delete()
         } catch (e) {
             console.error(e.name, e.message)
         }
