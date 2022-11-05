@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions } = require('discord.js')
 const fetch = require("node-fetch");
 const prefix = '.'
+const { SpotifyPlugin } = require("@distube/spotify");
 const { DisTube } = require('distube')
 const welcomeID = '365884726298542082';
 let welcome = false;
@@ -20,8 +21,13 @@ client.distube = new DisTube(client, {
     emitNewSongOnly: true,
     leaveOnFinish: true,
     emitAddSongWhenCreatingQueue: false,
-    emitAddListWhenCreatingQueue: false
-})
+    emitAddListWhenCreatingQueue: false,
+    plugins: [
+        new SpotifyPlugin({
+            emitEventsAfterFetching: true
+          })
+      ]
+},)
 
 const commands = {
     'ping': message => {
@@ -49,16 +55,20 @@ const commands = {
     'cat': message => {
         getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
     },
-    'play': (message, args) =>{
+    'play':async (message, args) =>{
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
             return;
         }
-        client.distube.play(message.member.voice.channel, args.join(" "), {
+        try {
+            await client.distube.play(message.member.voice.channel, args.join(" "), {
                 member: message.member,
                 textChannel: message.channel,
                 message
-        })
+            })
+        } catch (e) {
+            console.error(e.name, e.message)
+        }
     },
     'stop' : message => {
         if (!message.member.voice.channel) {
@@ -72,7 +82,7 @@ const commands = {
             console.error(e.name, e.message)
         }
     },
-    'skip': message => {
+    'skip': async message => {
         if (!message.member.voice.channel) {
             message.channel.send(`${message.author} you must be in a voice channel to do this! `);
             return;
@@ -85,7 +95,7 @@ const commands = {
                 return
             }
             
-            client.distube.skip(message);
+            await client.distube.skip(message);
             message.channel.send("Song skipped!");
         } catch (e) {
             console.error(e.name, e.message)
@@ -98,14 +108,15 @@ const commands = {
           .map((song, i) => `${i === 0 ? 'Playing:' : i+"."} ${song.name} - \`${song.formattedDuration}\``)
           .join('\n')
         message.channel.send(`**Server Queue**\n${q}`)
-      }
+      },
+      
 }
 
 let auth = require('./auth.json');
 
 client.on("ready", () => {
     console.log(`bot is online as ${client.user.tag}!`)
-
+   
     client.user.setActivity(`busy being Smilbot!!`)
 })
 
