@@ -29,96 +29,108 @@ client.distube = new DisTube(client, {
       ]
 },)
 
+const ping = message => {
+    message.channel.send('pong!')
+}
+const validateWelcome = (message, args) => {
+    if(args[0].toLowerCase() == 'yes'){
+        welcome = true;
+        message.channel.send('Welcome message enabled')
+    }
+    if(args[0].toLowerCase() == 'no'){
+        welcome = false;
+        message.channel.send('Welcome message disabled')
+    }
+    if(args[0].toLowerCase() == 'show'){
+        message.channel.send('Welcome:'+welcome)
+    }
+}
+const roll = message => {
+    message.channel.send(rollDice())
+}
+const quote = message => {
+    inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+(quote.author||"Anonymous")))
+}
+const cat = message => {
+    getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
+}
+const play = async (message, args) =>{
+    if (!message.member.voice.channel) {
+        message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+        message.delete()
+        return;
+    }
+    try {
+        
+        await client.distube.play(message.member.voice.channel, args.join(" "), {
+            member: message.member,
+            textChannel: message.channel,
+            message
+        })
+        message.delete()
+
+    } catch (e) {
+        console.error(e.name, e.message)
+    }
+}
+const stop = message => {
+    if (!message.member.voice.channel) {
+        message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+        message.delete()
+        return;
+    }
+    try {
+        client.distube.stop(message);
+        message.channel.send("Stopped the queue!");
+        message.delete()
+    } catch (error) {
+        console.error(e.name, e.message)
+    }
+}
+const skip = async message => {
+    if (!message.member.voice.channel) {
+        message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+        message.delete()
+        return;
+    }
+
+    try {
+
+        if(client.distube.getQueue(message).songs.length <= 1){
+            message.channel.send("Mmm.. . soo bascilly. . ther e no morr songs to skip...")
+            message.delete()
+            return
+        }
+        
+        await client.distube.skip(message);
+        message.channel.send("Song skipped!");
+        message.delete()
+    } catch (e) {
+        console.error(e.name, e.message)
+    }
+}
+const queue = message => {
+    const queue = client.distube.getQueue(message)
+    if (!queue) return message.channel.send(`There is nothing playing!`)
+    const q = queue.songs
+      .map((song, i) => `${i === 0 ? 'Playing:' : i+"."} ${song.name} - \`${song.formattedDuration}\``)
+      .join('\n')
+    message.channel.send(`**Server Queue**\n${q}`)
+}
+
 const commands = {
-    'ping': message => {
-        message.channel.send('pong!')
-    },
-    'welcome': (message, args) => {
-        if(args[0].toLowerCase() == 'yes'){
-            welcome = true;
-            message.channel.send('Welcome message enabled')
-        }
-        if(args[0].toLowerCase() == 'no'){
-            welcome = false;
-            message.channel.send('Welcome message disabled')
-        }
-        if(args[0].toLowerCase() == 'show'){
-            message.channel.send('Welcome:'+welcome)
-        }
-    },
-    'roll': message => {
-        message.channel.send(rollDice())
-    },
-    'quote': message => {
-        inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+(quote.author||"Anonymous")))
-    },
-    'cat': message => {
-        getCat().then(imageUrl => message.channel.send({files:[imageUrl]}))
-    },
-    'play':async (message, args) =>{
-        if (!message.member.voice.channel) {
-            message.channel.send(`${message.author} you must be in a voice channel to do this! `);
-            message.delete()
-            return;
-        }
-        try {
-            
-            await client.distube.play(message.member.voice.channel, args.join(" "), {
-                member: message.member,
-                textChannel: message.channel,
-                message
-            })
-            message.delete()
-
-        } catch (e) {
-            console.error(e.name, e.message)
-        }
-    },
-    'stop' : message => {
-        if (!message.member.voice.channel) {
-            message.channel.send(`${message.author} you must be in a voice channel to do this! `);
-            message.delete()
-            return;
-        }
-        try {
-            client.distube.stop(message);
-            message.channel.send("Stopped the queue!");
-            message.delete()
-        } catch (error) {
-            console.error(e.name, e.message)
-        }
-    },
-    'skip': async message => {
-        if (!message.member.voice.channel) {
-            message.channel.send(`${message.author} you must be in a voice channel to do this! `);
-            message.delete()
-            return;
-        }
-
-        try {
-
-            if(client.distube.getQueue(message).songs.length <= 1){
-                message.channel.send("Mmm.. . soo bascilly. . ther e no morr songs to skip...")
-                message.delete()
-                return
-            }
-            
-            await client.distube.skip(message);
-            message.channel.send("Song skipped!");
-            message.delete()
-        } catch (e) {
-            console.error(e.name, e.message)
-        }
-    },
-    'queue': message => {
-        const queue = client.distube.getQueue(message)
-        if (!queue) return message.channel.send(`There is nothing playing!`)
-        const q = queue.songs
-          .map((song, i) => `${i === 0 ? 'Playing:' : i+"."} ${song.name} - \`${song.formattedDuration}\``)
-          .join('\n')
-        message.channel.send(`**Server Queue**\n${q}`)
-      },
-      
+    'ping': ping,
+    'welcome': validateWelcome,
+    'roll': roll,
+    'quote': quote,
+    'cat': cat,
+    'play': play,
+    'p': play,
+    'stop': stop,
+    'leave': stop,
+    'skip': skip,
+    'queue': queue,
+    'q': queue 
 }
 
 //let auth = require('./auth.json');
