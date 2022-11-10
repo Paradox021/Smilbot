@@ -1,3 +1,4 @@
+import fetch from "node-fetch"
 export function getInspirationalQuote(){
     return fetch("https://type.fit/api/quotes")
     .then(response => response.json())
