@@ -1,12 +1,13 @@
 
 import { Client, GatewayIntentBits} from 'discord.js'
 import fetch from "node-fetch"
-const prefix = '.'
 import { SpotifyPlugin } from "@distube/spotify"
 import { DisTube }  from 'distube'
+import { ping } from './command/ping.js'
+
+const prefix = '.'
 const welcomeID = '365884726298542082';
 let welcome = false;
-import { ping } from './command/ping.js'
 
 const client = new Client({
     intents: [
@@ -31,9 +32,6 @@ client.distube = new DisTube(client, {
       ]
 },)
 
-const pingf = message => {
-    message.channel.send('pong!')
-}
 const validateWelcome = (message, args) => {
     if(args[0].toLowerCase() == 'yes'){
         welcome = true;
