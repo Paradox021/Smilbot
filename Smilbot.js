@@ -7,7 +7,6 @@ import { ping } from './command/ping.js'
 
 const prefix = '.'
 
-
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds, 
@@ -140,7 +139,7 @@ client.on("messageCreate", (message) => {
 
     const command = args.shift().toLowerCase()
     
-    commands.hasOwnProperty(command)&&commands[command](message, args)
+    commands.hasOwnProperty(command)&&commands[command](message, args, client)
     
 })
 
