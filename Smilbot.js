@@ -97,7 +97,7 @@ const skip = async message => {
     try {
 
         if(client.distube.getQueue(message).songs.length <= 1){
-            message.channel.send("Mmm.. . soo bascilly. . ther e no morr songs to skip...")
+            message.channel.send("Mmm.. . soo basicly. . ther e no morr songs to skip...")
             message.delete()
             return
         }
