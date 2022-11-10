@@ -1,10 +1,12 @@
-const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions } = require('discord.js')
-const fetch = require("node-fetch");
+
+import { Client, GatewayIntentBits} from 'discord.js'
+import fetch from "node-fetch"
 const prefix = '.'
-const { SpotifyPlugin } = require("@distube/spotify");
-const { DisTube } = require('distube')
+import { SpotifyPlugin } from "@distube/spotify"
+import { DisTube }  from 'distube'
 const welcomeID = '365884726298542082';
 let welcome = false;
+import { ping } from './command/ping.js'
 
 const client = new Client({
     intents: [
@@ -29,7 +31,7 @@ client.distube = new DisTube(client, {
       ]
 },)
 
-const ping = message => {
+const pingf = message => {
     message.channel.send('pong!')
 }
 const validateWelcome = (message, args) => {
@@ -109,6 +111,7 @@ const skip = async message => {
         console.error(e.name, e.message)
     }
 }
+
 const queue = message => {
     const queue = client.distube.getQueue(message)
     if (!queue){
@@ -138,7 +141,6 @@ const commands = {
     'q': queue 
 }
 
-//let auth = require('./auth.json');
 
 client.on("ready", () => {
     console.log(`bot is online as ${client.user.tag}!`)
@@ -166,7 +168,7 @@ client.on('guildMemberAdd', member => {
     channel.send(welcomeMessage);
 })
 
-//client.login(auth.token)
+
 client.login(process.env.token);
 
 client.distube
