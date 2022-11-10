@@ -1,3 +1,4 @@
+import { getInspirationalQuote } from "../services/quoteService"
 export const quote = message => {
-    inspirationalQuote().then(quote => message.channel.send(quote.text + " -"+(quote.author||"Anonymous")))
+    getInspirationalQuote().then(quote => message.channel.send(quote.text + " -"+(quote.author||"Anonymous")))
 }
