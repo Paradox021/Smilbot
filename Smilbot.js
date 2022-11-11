@@ -2,14 +2,14 @@
 import { Client, GatewayIntentBits} from 'discord.js'
 import { SpotifyPlugin } from "@distube/spotify"
 import { DisTube }  from 'distube'
-import { ping } from './command/ping.js'
-import { roll } from './command/roll.js'
-import { quote } from './command/quote.js'
-import { cat } from './command/cat.js'
-import { play } from './command/play.js'
-import { stop } from './command/stop.js'
-import { skip } from './command/skip.js'
-import { queue } from './command/queue.js'
+import { ping } from './commands/ping.js.js'
+import { roll } from './commands/roll.js'
+import { quote } from './commands/quote.js'
+import { cat } from './commands/cat.js'
+import { play } from './commands/play.js'
+import { stop } from './commands/stop.js'
+import { skip } from './commands/skip.js'
+import { queue } from './commands/queue.js'
 
 const prefix = '.'
 const commands = {
@@ -63,8 +63,7 @@ client.on("messageCreate", (message) => {
     commands.hasOwnProperty(command)&&commands[command](message, args, client)
     
 })
-client.distube
-    .on('playSong', (queue, song) =>
+client.distube.on('playSong', (queue, song) =>
         queue.textChannel.send(`Now playing: \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}`)
     )
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
