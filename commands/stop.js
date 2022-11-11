@@ -8,7 +8,7 @@ export const stop = (message, args, client) => {
         client.distube.stop(message);
         message.channel.send("Stopped the queue!");
         message.delete()
-    } catch (error) {
+    } catch (e) {
         console.error(e.name, e.message)
     }
 }
