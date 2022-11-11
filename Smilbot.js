@@ -2,7 +2,7 @@
 import { Client, GatewayIntentBits} from 'discord.js'
 import { SpotifyPlugin } from "@distube/spotify"
 import { DisTube }  from 'distube'
-import { ping } from './commands/ping.js.js'
+import { ping } from './commands/ping.js'
 import { roll } from './commands/roll.js'
 import { quote } from './commands/quote.js'
 import { cat } from './commands/cat.js'
