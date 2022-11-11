@@ -1,4 +1,4 @@
-export const skip = async message => {
+export const skip = async (message, args, client) => {
     if (!message.member.voice.channel) {
         message.channel.send(`${message.author} you must be in a voice channel to do this! `);
         message.delete()

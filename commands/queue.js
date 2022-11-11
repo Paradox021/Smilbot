@@ -1,4 +1,4 @@
-export const queue = message => {
+export const queue = (message, args, client) => {
     const queue = client.distube.getQueue(message)
     if (!queue){
         message.channel.send(`There is nothing playing!`)
