@@ -69,8 +69,8 @@ client.distube.on('playSong', (queue, song) =>
     )
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
-    .on("addSong", (queue, song) => {
-        const exampleEmbed = new EmbedBuilder()
+    .on("addSong", (queue, song) => queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`))
+        /*const exampleEmbed = new EmbedBuilder()
 	        .setColor(0x00569D)
 	        .setTitle('♪ Now playing ♪')
 	        .setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``)
@@ -78,7 +78,7 @@ client.distube.on('playSong', (queue, song) =>
 	        .setTimestamp()
 	        .setFooter({ text: `Added by ${song.user}`, iconURL: song.user.defaultAvatarURL });
 
-            return queue.textChannel.send({ embeds: [exampleEmbed] });
-    })
+            queue.textChannel.send({ embeds: [exampleEmbed] });*/
+            
 
 client.login(process.env.token);
