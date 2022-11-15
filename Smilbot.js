@@ -64,17 +64,6 @@ client.on("messageCreate", (message) => {
     
 })
 
-
-const exampleEmbed = new EmbedBuilder()
-	.setColor(0x0099FF)
-	.setTitle('♪ Now playing ♪')
-	.setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``)
-	.setThumbnail(song.thumbnail)
-	.setTimestamp()
-	.setFooter({ text: `Added by ${song.user}`, iconURL: song.user.defaultAvatarURL });
-
-channel.send({ embeds: [exampleEmbed] });
-
 client.distube.on('playSong', (queue, song) =>
         queue.textChannel.send(`Now playing: \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}`)
     )
