@@ -23,7 +23,13 @@ const commands = {
     'leave': stop,
     'skip': skip,
     'queue': queue,
-    'q': queue 
+    'q': queue,
+    'test': (message) => {
+        const exampleEmbed = new EmbedBuilder()
+	        .setColor(0x00569D)
+	        .setTitle('Now playing')
+        message.channel.send({ embeds: [exampleEmbed] })
+    }
 }
 const client = new Client({
     intents: [
@@ -72,11 +78,9 @@ client.distube.on('playSong', (queue, song) =>
     .on("addSong", (queue, song) => queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`))
         /*const exampleEmbed = new EmbedBuilder()
 	        .setColor(0x00569D)
-	        .setTitle('♪ Now playing ♪')
+	        .setTitle('Now playing')
 	        .setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``)
-	        .setThumbnail(song.thumbnail)
-	        .setTimestamp()
-	        .setFooter({ text: `Added by ${song.user}`, iconURL: song.user.defaultAvatarURL });
+	        .setFooter({ text: `Added by ${song.user}`});
 
             queue.textChannel.send({ embeds: [exampleEmbed] });*/
             
