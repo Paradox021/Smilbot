@@ -24,12 +24,6 @@ const commands = {
     'skip': skip,
     'queue': queue,
     'q': queue,
-    'test': (message) => {
-        const exampleEmbed = new EmbedBuilder()
-	        .setColor(0x00569D)
-	        .setTitle('Now playing')
-        message.channel.send({ embeds: [exampleEmbed] })
-    }
 }
 const client = new Client({
     intents: [
@@ -71,26 +65,26 @@ client.on("messageCreate", (message) => {
 })
 
 client.distube.on('playSong', (queue, song) =>{
-    queue.textChannel.send(`Now Playing ${song.name} - \`${song.formattedDuration}\``)
     const exampleEmbed = new EmbedBuilder()
             .setColor(0x00569D)
 	        .setTitle('Now playing')
 	        .setDescription(`${song.name} - \`${song.formattedDuration}\``)
 	        .setThumbnail(song.thumbnail)
 	        .setTimestamp()
+            .setFooter({ text: `Requested by ${song.user.tag}`, iconURL: song.user.avatarURL() });
     queue.textChannel.send({ embeds: [exampleEmbed] });
 
     })
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
     .on("addSong", (queue, song) => {
-        queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\``)
         const exampleEmbed = new EmbedBuilder()
             .setColor(0x85C734)
 	        .setTitle('Song added')
 	        .setDescription(`${song.name} - \`${song.formattedDuration}\``)
 	        .setThumbnail(song.thumbnail)
 	        .setTimestamp()
+            .setFooter({ text: `Added by ${song.user.tag}`, iconURL: song.user.avatarURL() });
         queue.textChannel.send({ embeds: [exampleEmbed] });
     })
             
