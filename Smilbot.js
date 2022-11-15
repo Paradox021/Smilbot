@@ -78,7 +78,6 @@ client.distube.on('playSong', (queue, song) =>{
 	        .setDescription(`${song.name} - \`${song.formattedDuration}\``)
 	        .setThumbnail(song.thumbnail)
 	        .setTimestamp()
-	        .setFooter({ text: `Requested by: ${song.user}`, iconURL: song.user.avatarURL });
     queue.textChannel.send({ embeds: [exampleEmbed] });
 
     })
@@ -92,7 +91,6 @@ client.distube.on('playSong', (queue, song) =>{
 	        .setDescription(`${song.name} - \`${song.formattedDuration}\``)
 	        .setThumbnail(song.thumbnail)
 	        .setTimestamp()
-	        .setFooter({ text: `Added by ${song.user}`, iconURL: song.user.avatarURL });
         queue.textChannel.send({ embeds: [exampleEmbed] });
     })
             
