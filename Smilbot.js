@@ -1,5 +1,5 @@
 
-import { Client, GatewayIntentBits} from 'discord.js'
+import { Client, GatewayIntentBits, EmbedBuilder} from 'discord.js'
 import { SpotifyPlugin } from "@distube/spotify"
 import { DisTube }  from 'distube'
 import { ping } from './commands/ping.js'
@@ -63,11 +63,33 @@ client.on("messageCreate", (message) => {
     commands.hasOwnProperty(command)&&commands[command](message, args, client)
     
 })
+
+
+const exampleEmbed = new EmbedBuilder()
+	.setColor(0x0099FF)
+	.setTitle('♪ Now playing ♪')
+	.setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``)
+	.setThumbnail(song.thumbnail)
+	.setTimestamp()
+	.setFooter({ text: `Added by ${song.user}`, iconURL: song.user.defaultAvatarURL });
+
+channel.send({ embeds: [exampleEmbed] });
+
 client.distube.on('playSong', (queue, song) =>
         queue.textChannel.send(`Now playing: \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}`)
     )
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
-    .on("addSong", (queue, song) => queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`))
+    .on("addSong", (queue, song) => {
+        const exampleEmbed = new EmbedBuilder()
+	        .setColor(0x00569D)
+	        .setTitle('♪ Now playing ♪')
+	        .setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``)
+	        .setThumbnail(song.thumbnail)
+	        .setTimestamp()
+	        .setFooter({ text: `Added by ${song.user}`, iconURL: song.user.defaultAvatarURL });
+
+            return queue.textChannel.send({ embeds: [exampleEmbed] });
+    })
 
 client.login(process.env.token);
