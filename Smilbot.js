@@ -28,6 +28,7 @@ const commands = {
         const exampleEmbed = new EmbedBuilder()
 	        .setColor(0x00569D)
 	        .setTitle('Now playing')
+            .setDescription(`\`rises the moon\` - \`02:33\``)
         message.channel.send({ embeds: [exampleEmbed] })
     }
 }
@@ -76,12 +77,11 @@ client.distube.on('playSong', (queue, song) =>
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
     .on("addSong", (queue, song) => {
-        queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`)
+        //queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`)
         const exampleEmbed = new EmbedBuilder()
 	        .setColor(0x00569D)
 	        .setTitle('Now playing')
-	        .setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``)
-	        .setFooter({ text: `Added by ${song.user}`});
+	        .setDescription(`\`${song.name}\` - \`${song.formattedDuration}\``);
 
         queue.textChannel.send({ embeds: [exampleEmbed] });
     })
