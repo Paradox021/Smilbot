@@ -14,7 +14,6 @@ export const skip = async (message, args, client) => {
         }
         
         await client.distube.skip(message);
-        message.channel.send("Song skipped!");
         message.delete()
     } catch (e) {
         console.error(e.name, e.message)

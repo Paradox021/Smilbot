@@ -49,7 +49,6 @@ client.distube = new DisTube(client, {
 
 client.on("ready", () => {
     console.log(`bot is online as ${client.user.tag}!`)
-   
     client.user.setActivity(`busy being Smilbot!!`)
 })
 
