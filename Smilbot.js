@@ -88,5 +88,4 @@ client.distube.on('playSong', (queue, song) =>{
         queue.textChannel.send({ embeds: [exampleEmbed] });
     })
             
-
 client.login(process.env.token);
