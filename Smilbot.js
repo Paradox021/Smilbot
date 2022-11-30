@@ -86,7 +86,6 @@ client.distube.on('playSong', (queue, song) =>{
 	        .setTimestamp()
             .setFooter({ text: `Added by ${song.user.tag}`, iconURL: song.user.avatarURL() });
         queue.textChannel.send({ embeds: [exampleEmbed] });
-    })
-            
+    })     
 
 client.login(process.env.token);
