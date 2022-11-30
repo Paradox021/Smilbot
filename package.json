@@ -34,9 +34,7 @@
 
         "libsodium-wrappers": "^0.7.10",
 
-        "node-fetch": "^2.6.7",
-
-        "ytdl-core-discord": "https://github.com/matteopolak/node-ytdl-core.git"
+        "node-fetch": "^2.6.7"
 
     },
 
