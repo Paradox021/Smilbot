@@ -1,5 +1,5 @@
 
-import { Client, GatewayIntentBits, EmbedBuilder} from 'discord.js'
+import { Client, GatewayIntentBits} from 'discord.js'
 import { SpotifyPlugin } from "@distube/spotify"
 import { DisTube }  from 'distube'
 import { ping } from './commands/ping.js'
@@ -65,9 +65,9 @@ client.on("messageCreate", (message) => {
 })
 
 client.distube
-    .on('playSong', (queue, song) => queue.textChannel.send({embeds:[createEmbedSong(0x00569D, 'Now playing', song)]}))
+    .on('playSong', (queue, song) => queue.textChannel.send(createEmbedSong(0x00569D, 'Now playing', song)))
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
-    .on("addSong", (queue, song) => queue.textChannel.send({embeds:[createEmbedSong(0x85C734, 'Song added', song)]}))
+    .on("addSong", (queue, song) => queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song)))
 
 client.login(process.env.token);

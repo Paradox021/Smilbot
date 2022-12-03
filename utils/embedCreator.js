@@ -8,5 +8,11 @@ export function createEmbedSong(color, title, song){
         .setThumbnail(song.thumbnail)
         .setTimestamp()
         .setFooter({ text: `Requested by ${song.user.tag}`, iconURL: song.user.avatarURL() });
-    return embed
+    return {embeds: [embed]}
+}
+export function createEmbedText(color, desc){
+    const embed = new EmbedBuilder()
+        .setColor(color)
+        .setDescription(desc)
+    return {embeds: [embed]}
 }
