@@ -10,6 +10,7 @@ import { play } from './commands/play.js'
 import { stop } from './commands/stop.js'
 import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
+import { createEmbedSong } from './utils/embedCreator.js'
 
 const prefix = '.'
 const commands = {
@@ -63,27 +64,10 @@ client.on("messageCreate", (message) => {
     
 })
 
-client.distube.on('playSong', (queue, song) =>{
-    const exampleEmbed = new EmbedBuilder()
-            .setColor(0x00569D)
-	        .setTitle('Now playing')
-	        .setDescription(`${song.name} - \`${song.formattedDuration}\``)
-	        .setThumbnail(song.thumbnail)
-	        .setTimestamp()
-            .setFooter({ text: `Requested by ${song.user.tag}`, iconURL: song.user.avatarURL() });
-    queue.textChannel.send({ embeds: [exampleEmbed] });
-    })
+client.distube
+    .on('playSong', (queue, song) => queue.textChannel.send({embeds:createEmbedSong(0x00569D, 'Now playing', song)}))
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
-    .on("addSong", (queue, song) => {
-        const exampleEmbed = new EmbedBuilder()
-            .setColor(0x85C734)
-	        .setTitle('Song added')
-	        .setDescription(`${song.name} - \`${song.formattedDuration}\``)
-	        .setThumbnail(song.thumbnail)
-	        .setTimestamp()
-            .setFooter({ text: `Added by ${song.user.tag}`, iconURL: song.user.avatarURL() });
-        queue.textChannel.send({ embeds: [exampleEmbed] });
-    })
-            
+    .on("addSong", (queue, song) => queue.textChannel.send({embeds:createEmbedSong(0x85C734, 'Song added', song)}))
+
 client.login(process.env.token);
