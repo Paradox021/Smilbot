@@ -2,8 +2,8 @@ import { EmbedBuilder } from "@discordjs/builders";
 
 export function createEmbedSong(color, title, song){
     const embed = new EmbedBuilder()
-        .setColor(0x00569D)
-        .setTitle('Now playing')
+        .setColor(color)
+        .setTitle(title)
         .setDescription(`${song.name} - \`${song.formattedDuration}\``)
         .setThumbnail(song.thumbnail)
         .setTimestamp()
