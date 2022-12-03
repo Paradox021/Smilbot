@@ -72,7 +72,6 @@ client.distube.on('playSong', (queue, song) =>{
 	        .setTimestamp()
             .setFooter({ text: `Requested by ${song.user.tag}`, iconURL: song.user.avatarURL() });
     queue.textChannel.send({ embeds: [exampleEmbed] });
-
     })
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
