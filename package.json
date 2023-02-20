@@ -24,8 +24,6 @@
 
         "@distube/spotify": "^1.4.2",
 
-        "@distube/ytdl-core": "^4.11.7",
-
         "discord.js": "^14.6.0",
 
         "distube": "^4.0.4",
