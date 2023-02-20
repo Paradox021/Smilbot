@@ -71,4 +71,4 @@ client.distube
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
     .on("addSong", (queue, song) => queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song)))
 
-client.login(process.env.token);
+client.login(process.env.TOKEN);
