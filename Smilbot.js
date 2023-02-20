@@ -26,6 +26,7 @@ const commands = {
     'queue': queue,
     'q': queue,
 }
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds, 
