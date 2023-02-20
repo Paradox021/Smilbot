@@ -6,11 +6,11 @@ export const play = async (message, args, client) =>{
     }
     try {
         
-        await client.distube.play(message.member.voice.channel, args.join(" "), {
+        console.log(await client.distube.play(message.member.voice.channel, args.join(" "), {
             member: message.member,
             textChannel: message.channel,
             message
-        })
+        }))
         message.delete()
 
     } catch (e) {
