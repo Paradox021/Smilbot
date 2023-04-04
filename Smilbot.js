@@ -10,6 +10,7 @@ import { play } from './commands/play.js'
 import { stop } from './commands/stop.js'
 import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
+import { getCard , createCard } from './commands/card.js'
 import { createEmbedSong } from './utils/embedCreator.js'
 
 const prefix = '.'
@@ -25,6 +26,8 @@ const commands = {
     'skip': skip,
     'queue': queue,
     'q': queue,
+    'getcard': getCard,
+    'createcard': createCard
 }
 
 const client = new Client({
