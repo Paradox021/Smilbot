@@ -2,6 +2,8 @@ import FormData from "form-data"
 import fetch from "node-fetch"
 
 const getCard = () => {
+
+    return getLegendaryCard()
     const roll = Math.random() * 1000
     if (roll < 5) {
         return getMythicCard()

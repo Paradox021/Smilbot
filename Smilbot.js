@@ -12,7 +12,9 @@ import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
 import { getCard , createCard } from './commands/card.js'
 import { createEmbedSong } from './utils/embedCreator.js'
+import * as dotenv from 'dotenv'
 
+dotenv.config()
 const prefix = '.'
 const commands = {
     'ping': ping,

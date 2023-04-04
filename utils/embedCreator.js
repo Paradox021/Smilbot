@@ -11,15 +11,27 @@ export function createEmbedSong(color, title, song){
     return {embeds: [embed]}
 }
 
-export function createEmbedCard(color, card){
+export async function createEmbedCard(color, card){
+    
+    const response = await fetch(card.imageUrl);
+    const buffer = await response.buffer();
+
+
+    const imageName = card.imageUrl.split('/').pop();
     const embed = new EmbedBuilder()
         .setColor(color)
         .setTitle(card.name)
         .setDescription(card.description)
-        .setThumbnail(card.imageUrl)
+        .setImage('attachment://'+imageName)
         .setTimestamp()
         .setFooter({ text: `Card by ${card.author}`});
-    return {embeds: [embed]}
+    
+    const attachment = {
+        name: imageName,
+        attachment: buffer
+    }
+
+    return {embeds: [embed], files: [attachment]}
 }
 
 export function createEmbedText(color, desc){
