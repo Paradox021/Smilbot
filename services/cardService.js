@@ -1,6 +1,12 @@
 import FormData from "form-data"
 import fetch from "node-fetch"
 
+
+// 0.5% chance of getting a mythic card
+// 2% chance of getting a legendary card
+// 10% chance of getting a epic card
+// 30% chance of getting a rare card
+// 57.5% chance of getting a common card
 const getCard = () => {
     const roll = Math.random() * 1000
     if (roll < 5) {
