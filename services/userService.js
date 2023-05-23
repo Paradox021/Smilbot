@@ -1,10 +1,15 @@
 // service for user
 
-
-const getUser = async (userId) => {
-    const res = await fetch("http://localhost:3000/user/" + userId)
-    const user = await res.json()
-    return user
+const getUser = async (user) => {
+    const res = await fetch("http://localhost:3000/user/id", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+    })
+    const newUser = await res.json()
+    return newUser
 }
 
 const addBalance = async (userId, amount) => {
@@ -55,5 +60,12 @@ const removeCard = async (userId, cardId) => {
     return user
 }
 
-export { getUser, addBalance, removeBalance, addCard, removeCard }
+const dailyBalance = async (id) => {
+    const res = await fetch("http://localhost:3000/user/" + id + "/dailyBalance", {
+        method: "POST"
+    })
+    return res
+}
+
+export { getUser, addBalance, removeBalance, addCard, removeCard, dailyBalance }
 

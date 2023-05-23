@@ -20,7 +20,7 @@
 
         "@discordjs/opus": "^0.8.0",
 
-        "@discordjs/voice": "^0.13.0",
+        "@discordjs/voice": "^0.16.0",
 
         "@distube/spotify": "^1.4.2",
 

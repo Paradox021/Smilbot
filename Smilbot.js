@@ -10,7 +10,9 @@ import { play } from './commands/play.js'
 import { stop } from './commands/stop.js'
 import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
+import { dailyBalance } from './commands/dailyBalance.js'
 import { getCard , createCard } from './commands/card.js'
+import { balance } from './commands/balance.js'
 import { createEmbedSong } from './utils/embedCreator.js'
 import * as dotenv from 'dotenv'
 
@@ -29,7 +31,9 @@ const commands = {
     'queue': queue,
     'q': queue,
     'getcard': getCard,
-    'createcard': createCard
+    'createcard': createCard,
+    'dailybalance': dailyBalance,
+    'balance': balance
 }
 
 const client = new Client({
