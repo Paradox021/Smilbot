@@ -11,10 +11,11 @@ import { stop } from './commands/stop.js'
 import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
 import { dailyBalance } from './commands/dailyBalance.js'
-import { getCard , createCard } from './commands/card.js'
+import { getCard , createCard, myCards } from './commands/card.js'
 import { balance } from './commands/balance.js'
 import { createEmbedSong } from './utils/embedCreator.js'
 import * as dotenv from 'dotenv'
+import { buttons } from './utils/buttons.js'
 
 dotenv.config()
 const prefix = '.'
@@ -33,7 +34,8 @@ const commands = {
     'getcard': getCard,
     'createcard': createCard,
     'dailybalance': dailyBalance,
-    'balance': balance
+    'balance': balance,
+    'mycards': myCards,
 }
 
 const client = new Client({
@@ -79,5 +81,10 @@ client.distube
     .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
     .on("finish", queue => queue.textChannel.send("No more song in queue"))
     .on("addSong", (queue, song) => queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song)))
+
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isButton()) return;
+    buttons.hasOwnProperty(interaction.customId) && buttons[interaction.customId](interaction)
+})
 
 client.login(process.env.TOKEN);

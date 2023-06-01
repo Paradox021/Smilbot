@@ -1,8 +1,8 @@
 import * as cardService from "../services/cardService.js"
 import * as userService from "../services/userService.js"
-import { createEmbedCard, createEmbedText } from "../utils/embedCreator.js"
+import { createEmbedCard, createEmbedListOfCards, createEmbedText } from "../utils/embedCreator.js"
 
-export const getCard = async (message) => {
+const getCard = async (message) => {
     const userId = message.author.id
     const auxUser = {
         discordId: userId,
@@ -20,7 +20,7 @@ export const getCard = async (message) => {
     message.reply(embed)
 }
 
-export const createCard = async (message, args) => {
+const createCard = async (message, args) => {
     if (message.member.roles.cache.some(role => role.name === "admin")) {
         const card = await cardService.createCard(message, args)
         const embed = await createEmbedCard( 0x00569D, card)
@@ -29,3 +29,15 @@ export const createCard = async (message, args) => {
         message.channel.send(createEmbedText( 0xFF0000, "You do not have the permission to do this!"))
     }
 }
+
+const myCards = async (message) => {
+    const auxUser = {
+        discordId: message.author.id,
+        username: message.author.username,
+    }
+    const cards = await userService.getMyCards(auxUser.discordId)
+    const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
+    message.reply(embed)
+}
+
+export { getCard, createCard, myCards }

@@ -67,5 +67,15 @@ const dailyBalance = async (id) => {
     return res
 }
 
-export { getUser, addBalance, removeBalance, addCard, removeCard, dailyBalance }
+const getMyCards = async (userId) => {
+    const res = await fetch("http://localhost:3000/user/" + userId + "/cards")
+    if (!res.ok) {
+        console.log(await res.json())
+        return
+    }
+    const cards = await res.json()
+    return cards
+}
+
+export { getUser, addBalance, removeBalance, addCard, removeCard, dailyBalance, getMyCards }
 
