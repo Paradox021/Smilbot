@@ -15,7 +15,7 @@ const dailyBalance = async (message) => {
     const res = await userService.dailyBalance(user.discordId)
     
     if(!res.ok) {
-        message.relpy(createEmbedText( 0xFF0000,  (await res.json()).error))
+        message.reply(createEmbedText( 0xFF0000,  (await res.json()).error))
         return
     }
     const newUser = await res.json()

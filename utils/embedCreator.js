@@ -56,7 +56,7 @@ export function createEmbedListOfCards(color, cards){
         .addComponents(button);
     
 
-    return {embeds: [embed], components: [actionRow], ephemeral: true}
+    return {embeds: [embed], components: [actionRow], files:[], ephemeral: true}
 }
 
 // hace un embed que muestra una carta de forma detallada con tres botones, uno para ver la siguiente carta, otro para ver la anterior y otro para volver a la vista de lista
@@ -109,4 +109,15 @@ export function createEmbedText(color, desc){
         .setColor(color)
         .setDescription(desc)
     return {embeds: [embed]}
+}
+
+export function createOpenCards(){
+    const button = new ButtonBuilder()
+        .setCustomId('openCards')
+        .setLabel('show my cards')
+        .setStyle('Primary');
+
+    const actionRow = new ActionRowBuilder()
+        .addComponents(button);
+    return {components: [actionRow]}
 }

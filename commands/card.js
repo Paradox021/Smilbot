@@ -1,6 +1,6 @@
 import * as cardService from "../services/cardService.js"
 import * as userService from "../services/userService.js"
-import { createEmbedCard, createEmbedListOfCards, createEmbedText } from "../utils/embedCreator.js"
+import { createEmbedCard, createOpenCards, createEmbedText } from "../utils/embedCreator.js"
 
 const getCard = async (message) => {
     const userId = message.author.id
@@ -31,13 +31,8 @@ const createCard = async (message, args) => {
 }
 
 const myCards = async (message) => {
-    const auxUser = {
-        discordId: message.author.id,
-        username: message.author.username,
-    }
-    const cards = await userService.getMyCards(auxUser.discordId)
-    const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
-    message.reply(embed)
+    const button = await createOpenCards()
+    message.reply(button)
 }
 
 export { getCard, createCard, myCards }
