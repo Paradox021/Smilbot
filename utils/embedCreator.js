@@ -1,5 +1,5 @@
 import { EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
-
+import fetch from 'node-fetch';
 export function createEmbedSong(color, title, song){
     const embed = new EmbedBuilder()
         .setColor(color)
@@ -13,12 +13,12 @@ export function createEmbedSong(color, title, song){
 
 export async function createEmbedCard(color, card){
     
-    const response = await fetch(card.imageUrl);
-    const buffer = await response.buffer();
+    try{
+        const response = await fetch(card.imageUrl);
 
-
-    const imageName = card.imageUrl.split('/').pop();
-    const embed = new EmbedBuilder()
+        const buffer = await response.buffer();
+        const imageName = card.imageUrl.split('/').pop();
+        const embed = new EmbedBuilder()
         .setColor(color)
         .setTitle(card.name)
         .setDescription(card.description)
@@ -32,6 +32,11 @@ export async function createEmbedCard(color, card){
     }
 
     return {embeds: [embed], files: [attachment]}
+    }
+    catch(err){
+        console.log(err);
+    }
+    
 }
 
 export function createEmbedListOfCards(color, cards){
