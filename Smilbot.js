@@ -14,6 +14,7 @@ import { dailyBalance } from './commands/dailyBalance.js'
 import { getCard , createCard, myCards } from './commands/card.js'
 import { balance } from './commands/balance.js'
 import { createEmbedSong } from './utils/embedCreator.js'
+import { getAllOffers } from './commands/market.js'
 import * as dotenv from 'dotenv'
 import { buttons } from './utils/buttons.js'
 
@@ -36,6 +37,7 @@ const commands = {
     'dailybalance': dailyBalance,
     'balance': balance,
     'mycards': myCards,
+    'market': getAllOffers,
 }
 
 const client = new Client({

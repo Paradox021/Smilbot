@@ -74,7 +74,7 @@ export async function createEmbedCardsDetailed(color, cards, position){
         .setColor(color)
         .setTitle(cards[position].name)
         .setDescription(`${cards[position].description}
-type: ${cards[position].type}
+${cards[position].type}
 ${cards[position].count} cards
 ${positionNumber} of ${cards.length}`)
         .setImage('attachment://'+imageName)
@@ -125,4 +125,56 @@ export function createOpenCards(){
     const actionRow = new ActionRowBuilder()
         .addComponents(button);
     return {components: [actionRow]}
+}
+
+export function createOpenMarket(){
+    const button = new ButtonBuilder()
+        .setCustomId('openMarket')
+        .setLabel('show market')
+        .setStyle('Primary');
+
+    const actionRow = new ActionRowBuilder()
+        .addComponents(button);
+    return {components: [actionRow]}
+}
+
+export function createEmbedMarketList(color, offers, position){
+    console.log("ofertas ---- ", offers)
+    const ofertas =[];
+    const positionNumber = Number(position) + 1;
+    for (let i = position*10; i < position*10 + 10; i++) {
+        if(offers[i]) ofertas.push(offers[i]);
+    }
+
+    const embed = new EmbedBuilder()
+        .setColor(color)
+        .setTitle('Market')
+        .setDescription('Here you can buy cards')
+        .setTimestamp()
+        .addFields(ofertas.map(offer => {
+            return {
+                name: offer._id.toString(),
+                value:`- ${offer.cardId.name} \n- ${offer.price} coins\n`,
+                }
+            }
+        ))
+        .setFooter({ text: `Page ${positionNumber} of ${Math.floor(offers.length/10+1)}`});
+
+    const buttonNext = new ButtonBuilder()
+        .setCustomId('nextMarketPage')
+        .setLabel('Next')
+        .setStyle('Primary');
+
+    const buttonPrevious = new ButtonBuilder()
+        .setCustomId('previousMarketPage')
+        .setLabel('Previous')
+        .setStyle('Primary');
+
+    const actionRow = new ActionRowBuilder()
+    if(position !== 0) actionRow.addComponents(buttonPrevious);
+    if(Math.floor(offers.length/10)!=0 && position !== Math.floor(offers.length/10) - 1) actionRow.addComponents(buttonNext);
+    const response = {embeds: [embed], ephemeral: true}
+    if(Math.floor(offers.length/10)!=0) response.components = [actionRow];
+    return response
+
 }
