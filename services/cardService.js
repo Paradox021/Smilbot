@@ -8,7 +8,8 @@ import fetch from "node-fetch"
 // 30% chance of getting a rare card
 // 57.5% chance of getting a common card
 const getCard = () => {
-    const roll = Math.random() * 1000
+    const roll = Math.floor(Math.random() * 1000)
+    console.log("roll : ",roll)
     if (roll < 5) {
         return getMythicCard()
     }
