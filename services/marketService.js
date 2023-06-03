@@ -17,3 +17,14 @@ export const addOffer = async (offer) => {
 
     return res
 }
+
+export const buyOffer = async (offer) => {
+    // se envia la peticion con el id del servidor
+    const res = await fetch(`http://localhost:3000/market/${offer.serverId}/offers/${offer.offerId}/buy`, {
+        method: 'POST',
+        body: JSON.stringify(offer),
+        headers: { 'Content-Type': 'application/json' },
+    })
+
+    return res
+}
