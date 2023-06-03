@@ -63,7 +63,6 @@ const openMarket = async (interaction) => {
         username: interaction.user.username,
     }
     const offers = await marketService.getAllOffers(auxUser.serverId)
-    console.log("offers ---- ", offers)
     const embed = await createEmbedMarketList( 0x00569D, offers, 0)
     interaction.reply(embed)
 }
@@ -75,7 +74,6 @@ const nextMarketPage = async (interaction) => {
         username: interaction.user.username,
     }
     const position = await interaction.message.embeds[0].footer.text.split(' ')[1]
-    console.log("position ---- ", position)
     const offers = await marketService.getAllOffers(auxUser.serverId)
     const embed = await createEmbedMarketList( 0x00569D, offers, position)
     interaction.update(embed)

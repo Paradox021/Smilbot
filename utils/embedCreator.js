@@ -139,7 +139,6 @@ export function createOpenMarket(){
 }
 
 export function createEmbedMarketList(color, offers, position){
-    console.log("ofertas ---- ", offers)
     const ofertas =[];
     const positionNumber = Number(position) + 1;
     for (let i = position*10; i < position*10 + 10; i++) {
