@@ -6,3 +6,14 @@ export const getAllOffers = async (serverId) => {
     const offers = await res.json()
     return offers
 }
+
+export const addOffer = async (offer) => {
+    // se envia la peticion con el id del servidor
+    const res = await fetch(`http://localhost:3000/market/${offer.serverId}/offers`, {
+        method: 'POST',
+        body: JSON.stringify(offer),
+        headers: { 'Content-Type': 'application/json' },
+    })
+
+    return res
+}
