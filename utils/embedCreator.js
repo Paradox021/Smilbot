@@ -1,5 +1,4 @@
 import { EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
-import fetch from 'node-fetch';
 
 const cardColors = {
     "common": 0xFFFFFF,
@@ -78,28 +77,7 @@ export async function createEmbedCardsDetailed(color, cards, position){
         .setTimestamp()
         .setFooter({ text: `Card by ${cards[position].author}`});
 
-    const buttonNext = new ButtonBuilder()
-        .setCustomId('nextCard')
-        .setLabel('Next')
-        .setStyle('Primary');
-
-    const buttonPrevious = new ButtonBuilder()
-        .setCustomId('previousCard')
-        .setLabel('Previous')
-        .setStyle('Primary');
-        
-    const buttonBack = new ButtonBuilder()
-        .setCustomId('changeViewToList')
-        .setLabel('cambiar vista')
-        .setStyle('Primary');
-
-    
-    const actionRow = new ActionRowBuilder()
-    if(position != 0) actionRow.addComponents(buttonPrevious);
-    actionRow.addComponents(buttonBack);
-    if(position != cards.length - 1) actionRow.addComponents(buttonNext);
-
-    return {embeds: [embed], components: [actionRow], ephemeral: true}
+    return {embeds: [embed], ephemeral: true}
 }
 
 export function createEmbedText(color, desc){
@@ -113,6 +91,17 @@ export function createOpenCards(){
     const button = new ButtonBuilder()
         .setCustomId('openCards')
         .setLabel('show my cards')
+        .setStyle('Primary');
+
+    const actionRow = new ActionRowBuilder()
+        .addComponents(button);
+    return {components: [actionRow]}
+}
+
+export function createOpenOtherCards(user){
+    const button = new ButtonBuilder()
+        .setCustomId('openOtherCards')
+        .setLabel(`show ${user.username}'s cards`)
         .setStyle('Primary');
 
     const actionRow = new ActionRowBuilder()

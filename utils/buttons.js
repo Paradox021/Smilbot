@@ -1,15 +1,20 @@
 import { createEmbedCardsDetailed, createEmbedListOfCards, createEmbedMarketList} from "./embedCreator.js"
 import * as userService from "../services/userService.js"
 import * as marketService from "../services/marketService.js"
+import { ButtonBuilder, ActionRowBuilder } from "@discordjs/builders"
 
 const changeViewToDetailed = async (interaction) => {
     const auxUser = {
         discordId: interaction.user.id,
         username: interaction.user.username,
     }
+    
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, 0)
-    interaction.update(embed)
+
+    const message = addButtonsForMyCards(cards.cards, 0, embed)
+
+    interaction.update(message)
 }
 
 const changeViewToList = async (interaction) => {
@@ -32,7 +37,10 @@ const nextCard = async (interaction) => {
     const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position)
-    interaction.update(embed)
+
+    const message = addButtonsForMyCards(cards.cards, position, embed)
+    
+    interaction.update(message)
 }
 
 const previousCard = async (interaction) => {
@@ -43,7 +51,11 @@ const previousCard = async (interaction) => {
     const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position-2)
-    interaction.update(embed)
+
+    console.log("position: "+position)
+    const message = addButtonsForMyCards(cards.cards, position-2, embed)
+
+    interaction.update(message)
 }
 
 const openCards = async (interaction) => {
@@ -53,7 +65,7 @@ const openCards = async (interaction) => {
     }
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
-    interaction.reply(embed)
+    interaction.reply( embed )
 }
 
 const openMarket = async (interaction) => {
@@ -100,4 +112,35 @@ export const buttons ={
     'openMarket': openMarket,
     'nextMarketPage': nextMarketPage,
     'previousMarketPage': previousMarketPage,
+    
+}
+
+function addButtonsForMyCards(cards, position, embed){
+    const buttonNext = new ButtonBuilder()
+        .setCustomId('nextCard')
+        .setLabel('Next')
+        .setStyle('Primary');
+
+    const buttonPrevious = new ButtonBuilder()
+        .setCustomId('previousCard')
+        .setLabel('Previous')
+        .setStyle('Primary');
+        
+    const buttonBack = new ButtonBuilder()
+        .setCustomId('changeViewToList')
+        .setLabel('cambiar vista')
+        .setStyle('Primary');
+
+        console.log("position: ", position)
+
+        if(position == 0) buttonPrevious.setDisabled(true)
+        if(position == cards.length - 1) buttonNext.setDisabled(true)
+    
+    const actionRow = new ActionRowBuilder()
+        .addComponents(buttonPrevious)
+        .addComponents(buttonBack)
+        .addComponents(buttonNext);
+    
+
+    return { ...embed, components: [actionRow] }
 }
