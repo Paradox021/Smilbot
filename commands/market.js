@@ -43,3 +43,22 @@ export const buyOffer = async (message, args) => {
     }
     message.reply(createEmbedText(0x00569D, 'Card bought'))
 }
+
+export const removeOffer = async (message, args) => {
+    if(args.length != 1){
+        message.reply(createEmbedText(0x00569D, 'Invalid arguments'))
+        return
+    }
+    const offer = {
+        discordId: message.author.id,
+        serverId: message.guild.id,
+        offerId: args[0],
+    }
+    const res = await marketService.removeOffer(offer);
+    if(res.status != 200){
+        const error = await res.json()
+        message.reply(createEmbedText(0x00569D, error.error))
+        return
+    }
+    message.reply(createEmbedText(0x00569D, 'Offer removed'))
+}

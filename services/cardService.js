@@ -1,6 +1,8 @@
 import FormData from "form-data"
 import fetch from "node-fetch"
+import dotenv from "dotenv"
 
+dotenv.config()
 
 // 0.5% chance of getting a mythic card
 // 2% chance of getting a legendary card
@@ -25,11 +27,11 @@ const getCard = () => {
     return getCommonCard()
 }
 
-const getMythicCard = () => fetch("http://localhost:3000/card/mythic").then(res => res.json())
-const getLegendaryCard = () => fetch("http://localhost:3000/card/legendary").then(res => res.json())
-const getEpicCard = () => fetch("http://localhost:3000/card/epic").then(res => res.json())
-const getRareCard = () => fetch("http://localhost:3000/card/rare").then(res => res.json())
-const getCommonCard = () => fetch("http://localhost:3000/card/common").then(res => res.json())
+const getMythicCard = () => fetch(process.env.BACKEND_URL+"/card/mythic").then(res => res.json())
+const getLegendaryCard = () => fetch(process.env.BACKEND_URL+"/card/legendary").then(res => res.json())
+const getEpicCard = () => fetch(process.env.BACKEND_URL+"/card/epic").then(res => res.json())
+const getRareCard = () => fetch(process.env.BACKEND_URL+"/card/rare").then(res => res.json())
+const getCommonCard = () => fetch(process.env.BACKEND_URL+"/card/common").then(res => res.json())
 
 const createCard = async (message, args) => {
 
@@ -40,16 +42,17 @@ const createCard = async (message, args) => {
     const imageResponse = await fetch(imageUrl);
     const imageBuffer = await imageResponse.buffer();
     formData.append('image', imageBuffer, imageName);
-
+    // quitamos los dos primeros argumentos y el resto los juntamos en una sola string
+    const desc = args.slice(2).join(' ')
     formData.append('data', JSON.stringify({
         name: args[0],
         type: args[1],
-        description: args[2],
+        description: desc,
         author: message.author.username
     }))
 
      
-    const res = await fetch("http://localhost:3000/card", {
+    const res = await fetch(process.env.BACKEND_URL+"/card", {
         method: "POST",
         body: formData
     })
@@ -60,6 +63,8 @@ const createCard = async (message, args) => {
     }
 
     const newCard = await res.json()
+
+    console.log(newCard)
 
     return newCard
 }
