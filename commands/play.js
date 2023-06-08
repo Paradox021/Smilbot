@@ -1,6 +1,7 @@
+import { createEmbedText } from "../utils/embedCreator.js";
 export const play = async (message, args, client) =>{
     if (!message.member.voice.channel) {
-        message.channel.send(`${message.author} you must be in a voice channel to do this! `);
+        message.channel.send(createEmbedText(0xFF0000, `${message.author} you must be in a voice channel to do this! `));
         message.delete()
         return;
     }

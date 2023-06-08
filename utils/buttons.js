@@ -29,7 +29,7 @@ const nextCard = async (interaction) => {
         discordId: interaction.user.id,
         username: interaction.user.username,
     }
-    const position = await interaction.message.embeds[0].description.split('\n')[3].split(' ')[0]
+    const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position)
     interaction.update(embed)
@@ -40,7 +40,7 @@ const previousCard = async (interaction) => {
         discordId: interaction.user.id,
         username: interaction.user.username,
     }
-    const position = await interaction.message.embeds[0].description.split('\n')[3].split(' ')[0]
+    const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position-2)
     interaction.update(embed)

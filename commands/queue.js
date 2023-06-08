@@ -1,3 +1,4 @@
+import { createEmbedSongQueue } from "../utils/embedCreator.js"
 export const queue = (message, args, client) => {
     const queue = client.distube.getQueue(message)
     if (!queue){
@@ -5,9 +6,7 @@ export const queue = (message, args, client) => {
         message.delete()
         return
     }   
-    const q = queue.songs
-      .map((song, i) => `${i === 0 ? 'Playing:' : i+"."} ${song.name} - \`${song.formattedDuration}\``)
-      .join('\n')
-    message.channel.send(`**Server Queue**\n${q}`)
+    const embed = createEmbedSongQueue(0x00569D, queue.songs)
+    message.channel.send(embed)
     message.delete()
 }
