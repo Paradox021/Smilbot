@@ -11,7 +11,7 @@ import { stop } from './commands/stop.js'
 import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
 import { dailyBalance } from './commands/dailyBalance.js'
-import { getCard , createCard, myCards } from './commands/card.js'
+import { getCard , createCard, myCards, otherCards } from './commands/card.js'
 import { balance } from './commands/balance.js'
 import { createEmbedSong, createEmbedText } from './utils/embedCreator.js'
 import { getAllOffers, addOffer, buyOffer, removeOffer } from './commands/market.js'
@@ -41,6 +41,7 @@ const commands = {
     'sell': addOffer,
     'buy': buyOffer,
     'remove': removeOffer,
+    'show': otherCards
 }
 
 const client = new Client({

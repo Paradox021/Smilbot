@@ -1,6 +1,6 @@
 import * as cardService from "../services/cardService.js"
 import * as userService from "../services/userService.js"
-import { createEmbedCard, createOpenCards, createEmbedText } from "../utils/embedCreator.js"
+import { createEmbedCard, createOpenCards, createEmbedText, createOpenOtherCards } from "../utils/embedCreator.js"
 
 const getCard = async (message) => {
     const userId = message.author.id
@@ -39,4 +39,15 @@ const myCards = async (message) => {
     message.reply(button)
 }
 
-export { getCard, createCard, myCards }
+const otherCards = async (message) => {
+    const user = message.mentions.users.first()
+    if (!user) {
+        message.reply(createEmbedText( 0xFF0000, "You must mention a user to use this command!"))
+        return
+    }
+    const button = await createOpenOtherCards(user)
+    message.reply(button)
+}
+
+
+export { getCard, createCard, myCards, otherCards }
