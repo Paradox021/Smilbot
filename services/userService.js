@@ -1,7 +1,7 @@
 // service for user
 
 const getUser = async (user) => {
-    const res = await fetch("http://localhost:3000/user/id", {
+    const res = await fetch(process.env.BACKEND_URL+"/user/id", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -13,7 +13,7 @@ const getUser = async (user) => {
 }
 
 const addBalance = async (userId, amount) => {
-    const res = await fetch("http://localhost:3000/user/" + userId + "/balance/" + amount, {
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/balance/" + amount, {
         method: "POST"
     })
     if (!res.ok) {
@@ -25,7 +25,7 @@ const addBalance = async (userId, amount) => {
 }
 
 const removeBalance = async (userId, amount) => {
-    const res = await fetch("http://localhost:3000/user/" + userId + "/balance/" + amount, {
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/balance/" + amount, {
         method: "DELETE"
     })
     if (!res.ok) {
@@ -37,7 +37,7 @@ const removeBalance = async (userId, amount) => {
 }
 
 const addCard = async (userId, cardId) => {
-    const res = await fetch("http://localhost:3000/user/" + userId + "/card/" + cardId, {
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/card/" + cardId, {
         method: "POST"
     })
     if (!res.ok) {
@@ -49,7 +49,7 @@ const addCard = async (userId, cardId) => {
 }
 
 const removeCard = async (userId, cardId) => {
-    const res = await fetch("http://localhost:3000/user/" + userId + "/card/" + cardId, {
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/card/" + cardId, {
         method: "DELETE"
     })
     if (!res.ok) {
@@ -61,14 +61,14 @@ const removeCard = async (userId, cardId) => {
 }
 
 const dailyBalance = async (id) => {
-    const res = await fetch("http://localhost:3000/user/" + id + "/dailyBalance", {
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + id + "/dailyBalance", {
         method: "POST"
     })
     return res
 }
 
 const getMyCards = async (userId) => {
-    const res = await fetch("http://localhost:3000/user/" + userId + "/cards")
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/cards")
     if (!res.ok) {
         console.log(await res.json())
         return

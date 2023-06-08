@@ -1,5 +1,14 @@
 import { EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
 import fetch from 'node-fetch';
+
+const cardColors = {
+    "common": 0xFFFFFF,
+    "rare": 0x0070DD,
+    "epic": 0xA335EE,
+    "legendary": 0xFF8000,
+    "mythic": 0xC45039
+}
+
 export function createEmbedSong(color, title, song){
     const embed = new EmbedBuilder()
         .setColor(color)
@@ -14,24 +23,17 @@ export function createEmbedSong(color, title, song){
 export async function createEmbedCard(color, card){
     
     try{
-        const response = await fetch(card.imageUrl);
-
-        const buffer = await response.buffer();
-        const imageName = card.imageUrl.split('/').pop();
+        
         const embed = new EmbedBuilder()
-        .setColor(color)
-        .setTitle(card.name)
+        .setColor(cardColors[card.type])
+        .setTitle(`${card.name} - ${card.type}`)
         .setDescription(card.description)
-        .setImage('attachment://'+imageName)
+        .setImage(card.imageUrl)
         .setTimestamp()
         .setFooter({ text: `Card by ${card.author}`});
     
-    const attachment = {
-        name: imageName,
-        attachment: buffer
-    }
 
-    return {embeds: [embed], files: [attachment]}
+    return {embeds: [embed]}
     }
     catch(err){
         console.log(err);
@@ -66,18 +68,13 @@ export function createEmbedListOfCards(color, cards){
 
 // hace un embed que muestra una carta de forma detallada con tres botones, uno para ver la siguiente carta, otro para ver la anterior y otro para volver a la vista de lista
 export async function createEmbedCardsDetailed(color, cards, position){
-    const response = await fetch(cards[position].imageUrl);
-    const buffer = await response.buffer();
-    const imageName = cards[position].imageUrl.split('/').pop();
+
     const positionNumber = Number(position) + 1;
     const embed = new EmbedBuilder()
-        .setColor(color)
-        .setTitle(cards[position].name)
-        .setDescription(`${cards[position].description}
-${cards[position].type}
-${cards[position].count} cards
-${positionNumber} of ${cards.length}`)
-        .setImage('attachment://'+imageName)
+        .setColor(cardColors[cards[position].type])
+        .setTitle(`${cards[position].name} - ${cards[position].count} cards`)
+        .setDescription(`${cards[position].description}\n${cards[position].type}\n${positionNumber} of ${cards.length}`)
+        .setImage(cards[position].imageUrl)
         .setTimestamp()
         .setFooter({ text: `Card by ${cards[position].author}`});
 
@@ -96,17 +93,13 @@ ${positionNumber} of ${cards.length}`)
         .setLabel('cambiar vista')
         .setStyle('Primary');
 
-    const attachment = {
-        name: imageName,
-        attachment: buffer
-    }
     
     const actionRow = new ActionRowBuilder()
     if(position != 0) actionRow.addComponents(buttonPrevious);
     actionRow.addComponents(buttonBack);
     if(position != cards.length - 1) actionRow.addComponents(buttonNext);
 
-    return {embeds: [embed], components: [actionRow], files: [attachment], ephemeral: true}
+    return {embeds: [embed], components: [actionRow], ephemeral: true}
 }
 
 export function createEmbedText(color, desc){
@@ -177,3 +170,21 @@ export function createEmbedMarketList(color, offers, position){
     return response
 
 }
+
+export function createEmbedSongQueue(color, songs){
+    const embed = new EmbedBuilder()
+        .setColor(color)
+        .setTitle("**Server Queue**")
+        .setTimestamp()
+        .setFooter({ text: `There are ${songs.length} songs in the queue`})
+        .addFields(songs.map((song, i) => {
+            return {
+                name: `${i === 0 ? 'Playing:' : i+"."} ${song.name}`,
+                value:`\`${song.formattedDuration}\``,
+            }
+        }))
+    return {embeds: [embed]}
+
+}
+
+

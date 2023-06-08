@@ -13,8 +13,8 @@ import { queue } from './commands/queue.js'
 import { dailyBalance } from './commands/dailyBalance.js'
 import { getCard , createCard, myCards } from './commands/card.js'
 import { balance } from './commands/balance.js'
-import { createEmbedSong } from './utils/embedCreator.js'
-import { getAllOffers, addOffer, buyOffer } from './commands/market.js'
+import { createEmbedSong, createEmbedText } from './utils/embedCreator.js'
+import { getAllOffers, addOffer, buyOffer, removeOffer } from './commands/market.js'
 import * as dotenv from 'dotenv'
 import { buttons } from './utils/buttons.js'
 
@@ -40,6 +40,7 @@ const commands = {
     'market': getAllOffers,
     'sell': addOffer,
     'buy': buyOffer,
+    'remove': removeOffer,
 }
 
 const client = new Client({
@@ -82,8 +83,8 @@ client.on("messageCreate", (message) => {
 
 client.distube
     .on('playSong', (queue, song) => queue.textChannel.send(createEmbedSong(0x00569D, 'Now playing', song)))
-    .on("empty", queue => queue.textChannel.send("Channel is empty. Leaving the channel"))
-    .on("finish", queue => queue.textChannel.send("No more song in queue"))
+    .on("empty", queue => queue.textChannel.send(createEmbedText(0x85C734, 'Channel is empty, leaving the channel')))
+    .on("finish", queue => queue.textChannel.send(createEmbedText(0x85C734, 'No more songs in queue, leaving the channel')))
     .on("addSong", (queue, song) => queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song)))
 
 client.on('interactionCreate', async (interaction) => {

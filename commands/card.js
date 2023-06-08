@@ -25,7 +25,7 @@ const getCard = async (message) => {
 }
 
 const createCard = async (message, args) => {
-    if (message.member.roles.cache.some(role => role.name === "admin")) {
+    if (message.member.roles.cache.some(role => role.name === "admin") || message.member.roles.cache.some(role => role.name === "ADMIN")) {
         const card = await cardService.createCard(message, args)
         const embed = await createEmbedCard( 0x00569D, card)
         message.channel.send(embed)
