@@ -16,7 +16,7 @@ import { balance } from './commands/balance.js'
 import { createEmbedSong, createEmbedText } from './utils/embedCreator.js'
 import { getAllOffers, addOffer, buyOffer, removeOffer } from './commands/market.js'
 import * as dotenv from 'dotenv'
-import { buttons } from './utils/buttons.js'
+import { handleButtons } from './utils/buttons.js'
 
 dotenv.config()
 const prefix = '.'
@@ -89,8 +89,7 @@ client.distube
     .on("addSong", (queue, song) => queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song)))
 
 client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isButton()) return;
-    buttons.hasOwnProperty(interaction.customId) && buttons[interaction.customId](interaction)
+    handleButtons(interaction)
 })
 
 client.login(process.env.TOKEN);
