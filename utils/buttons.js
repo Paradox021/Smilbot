@@ -65,7 +65,8 @@ const otherChangeViewToList = async (interaction) => {
     const argsCustomId = interaction.customId.split('_');
     const userId = argsCustomId[1];
     const cards = await userService.getMyCards(userId)
-    const embed = await createEmbedListOfCards( 0x00569D, cards.cards, "Cards of " + userId)
+    const username = await interaction.guild.members.fetch(userId)
+    const embed = await createEmbedListOfCards( 0x00569D, cards.cards, `${username.user.username}'s cards`)
     const position = interaction.message.embeds[0].description.split('\n')[2].split(' ')[0] - 1
     const message = await addButtonsForOtherCardsList(embed, userId, position)
 
