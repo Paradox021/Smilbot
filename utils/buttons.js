@@ -3,16 +3,26 @@ import * as userService from "../services/userService.js"
 import * as marketService from "../services/marketService.js"
 import { ButtonBuilder, ActionRowBuilder } from "@discordjs/builders"
 
+export function handleButtons(interaction){
+    if (!interaction.isButton()) return;
+    if(interaction.customId.startsWith('changeViewToDetailed')) changeViewToDetailed(interaction);
+    buttons.hasOwnProperty(interaction.customId) && buttons[interaction.customId](interaction); 
+}
+
 const changeViewToDetailed = async (interaction) => {
     const auxUser = {
         discordId: interaction.user.id,
         username: interaction.user.username,
     }
-    
+    let position = 0;
+    const customId = interaction.customId.split('_');
+    if(customId.length > 1){
+        position = customId[1]
+    }
     const cards = await userService.getMyCards(auxUser.discordId)
-    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, 0)
+    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position)
 
-    const message = addButtonsForMyCards(cards.cards, 0, embed)
+    const message = addButtonsForMyCards(cards.cards, position, embed)
 
     interaction.update(message)
 }
@@ -25,8 +35,10 @@ const changeViewToList = async (interaction) => {
     
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
+    const position = interaction.message.embeds[0].description.split('\n')[2].split(' ')[0] - 1
+    const message = await addButtonsForMyCardsList(embed, position)
     
-    interaction.update(embed)
+    interaction.update(message)
 }
 
 const nextCard = async (interaction) => {
@@ -52,7 +64,6 @@ const previousCard = async (interaction) => {
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position-2)
 
-    console.log("position: "+position)
     const message = addButtonsForMyCards(cards.cards, position-2, embed)
 
     interaction.update(message)
@@ -65,7 +76,8 @@ const openCards = async (interaction) => {
     }
     const cards = await userService.getMyCards(auxUser.discordId)
     const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
-    interaction.reply( embed )
+    const message = await addButtonsForMyCardsList(embed) 
+    interaction.reply( message )
 }
 
 const openMarket = async (interaction) => {
@@ -103,8 +115,7 @@ const previousMarketPage = async (interaction) => {
     interaction.update(embed)
 }
 
-export const buttons ={
-    'changeViewToDetailed': changeViewToDetailed,   
+const buttons ={  
     'changeViewToList': changeViewToList,
     'nextCard': nextCard,
     'previousCard': previousCard,
@@ -112,8 +123,9 @@ export const buttons ={
     'openMarket': openMarket,
     'nextMarketPage': nextMarketPage,
     'previousMarketPage': previousMarketPage,
-    
 }
+
+
 
 function addButtonsForMyCards(cards, position, embed){
     const buttonNext = new ButtonBuilder()
@@ -143,4 +155,18 @@ function addButtonsForMyCards(cards, position, embed){
     
 
     return { ...embed, components: [actionRow] }
+}
+
+function addButtonsForMyCardsList(embed, position){
+    const button = new ButtonBuilder()
+        .setCustomId('changeViewToDetailed')
+        .setLabel('cambiar vista')
+        .setStyle('Primary');
+    if(position) button.setCustomId('changeViewToDetailed_'+position)
+
+    const actionRow = new ActionRowBuilder()
+        .addComponents(button);
+
+    return { ...embed, components: [actionRow] }
+
 }

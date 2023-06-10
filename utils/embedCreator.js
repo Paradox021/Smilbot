@@ -52,17 +52,8 @@ export function createEmbedListOfCards(color, cards){
                 value:`${card.count} cards`,
             }
         }))
-    
-    const button = new ButtonBuilder()
-        .setCustomId('changeViewToDetailed')
-        .setLabel('cambiar vista')
-        .setStyle('Primary');
 
-    const actionRow = new ActionRowBuilder()
-        .addComponents(button);
-    
-
-    return {embeds: [embed], components: [actionRow], files:[], ephemeral: true}
+    return {embeds: [embed], files:[], ephemeral: true}
 }
 
 // hace un embed que muestra una carta de forma detallada con tres botones, uno para ver la siguiente carta, otro para ver la anterior y otro para volver a la vista de lista
