@@ -1,8 +1,8 @@
-import { createEmbedSongQueue } from "../utils/embedCreator.js"
+import { createEmbedSongQueue, createEmbedText } from "../utils/embedCreator.js"
 export const queue = (message, args, client) => {
     const queue = client.distube.getQueue(message)
     if (!queue){
-        message.channel.send(`There is nothing playing!`)
+        message.channel.send(createEmbedText(0x00569D, 'There is no queue.'))
         message.delete()
         return
     }   
