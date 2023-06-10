@@ -6,6 +6,11 @@ import { ButtonBuilder, ActionRowBuilder } from "@discordjs/builders"
 export function handleButtons(interaction){
     if (!interaction.isButton()) return;
     if(interaction.customId.startsWith('changeViewToDetailed')) changeViewToDetailed(interaction);
+    if(interaction.customId.startsWith('openOtherCard')) openOtherCards(interaction);
+    if(interaction.customId.startsWith('otherChangeViewToDetailed')) otherChangeViewToDetailed(interaction);
+    if(interaction.customId.startsWith('otherChangeViewToList')) otherChangeViewToList(interaction);
+    if(interaction.customId.startsWith('nextOtherCard')) nextOtherCard(interaction);
+    if(interaction.customId.startsWith('previousOtherCard')) previousOtherCard(interaction);
     buttons.hasOwnProperty(interaction.customId) && buttons[interaction.customId](interaction); 
 }
 
@@ -27,6 +32,21 @@ const changeViewToDetailed = async (interaction) => {
     interaction.update(message)
 }
 
+const otherChangeViewToDetailed = async (interaction) => {
+    const argsCustomId = interaction.customId.split('_');
+    const userId = argsCustomId[1];
+    const cards = await userService.getMyCards(userId)
+    let position = 0;
+    if(argsCustomId.length > 2){
+        position = argsCustomId[2]
+    }
+    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position, userId)
+    const message = addButtonsForOtherCards(cards.cards, position, embed, userId)
+
+    interaction.update(message)
+}
+    
+
 const changeViewToList = async (interaction) => {
     const auxUser = {
         discordId: interaction.user.id,
@@ -34,10 +54,21 @@ const changeViewToList = async (interaction) => {
     }
     
     const cards = await userService.getMyCards(auxUser.discordId)
-    const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
+    const embed = await createEmbedListOfCards( 0x00569D, cards.cards, "Your cards")
     const position = interaction.message.embeds[0].description.split('\n')[2].split(' ')[0] - 1
     const message = await addButtonsForMyCardsList(embed, position)
     
+    interaction.update(message)
+}
+
+const otherChangeViewToList = async (interaction) => {
+    const argsCustomId = interaction.customId.split('_');
+    const userId = argsCustomId[1];
+    const cards = await userService.getMyCards(userId)
+    const embed = await createEmbedListOfCards( 0x00569D, cards.cards, "Cards of " + userId)
+    const position = interaction.message.embeds[0].description.split('\n')[2].split(' ')[0] - 1
+    const message = await addButtonsForOtherCardsList(embed, userId, position)
+
     interaction.update(message)
 }
 
@@ -55,6 +86,17 @@ const nextCard = async (interaction) => {
     interaction.update(message)
 }
 
+const nextOtherCard = async (interaction) => {
+    const argsCustomId = interaction.customId.split('_');
+    const userId = argsCustomId[1];
+    const cards = await userService.getMyCards(userId)
+    const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
+    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position, userId)
+    const message = addButtonsForOtherCards(cards.cards, position, embed, userId)
+
+    interaction.update(message)
+}
+
 const previousCard = async (interaction) => {
     const auxUser = {
         discordId: interaction.user.id,
@@ -69,14 +111,34 @@ const previousCard = async (interaction) => {
     interaction.update(message)
 }
 
+const previousOtherCard = async (interaction) => {
+    const argsCustomId = interaction.customId.split('_');
+    const userId = argsCustomId[1];
+    const cards = await userService.getMyCards(userId)
+    const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
+    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position-2, userId)
+    const message = addButtonsForOtherCards(cards.cards, position-2, embed, userId)
+
+    interaction.update(message)
+}
+
 const openCards = async (interaction) => {
     const auxUser = {
         discordId: interaction.user.id,
         username: interaction.user.username,
     }
     const cards = await userService.getMyCards(auxUser.discordId)
-    const embed = await createEmbedListOfCards( 0x00569D, cards.cards)
+    const embed = await createEmbedListOfCards( 0x00569D, cards.cards, "Your cards")
     const message = await addButtonsForMyCardsList(embed) 
+    interaction.reply( message )
+}
+
+const openOtherCards = async (interaction) => {
+    const userId = interaction.customId.split('_')[1]
+    const cards = await userService.getMyCards(userId)
+    const username = await interaction.guild.members.fetch(userId)
+    const embed = await createEmbedListOfCards( 0x00569D, cards.cards, `${username.user.username}'s cards`)
+    const message = await addButtonsForOtherCardsList(embed, userId)
     interaction.reply( message )
 }
 
@@ -143,8 +205,6 @@ function addButtonsForMyCards(cards, position, embed){
         .setLabel('cambiar vista')
         .setStyle('Primary');
 
-        console.log("position: ", position)
-
         if(position == 0) buttonPrevious.setDisabled(true)
         if(position == cards.length - 1) buttonNext.setDisabled(true)
     
@@ -169,4 +229,47 @@ function addButtonsForMyCardsList(embed, position){
 
     return { ...embed, components: [actionRow] }
 
+}
+
+function addButtonsForOtherCardsList(embed, userId, position){
+    const button = new ButtonBuilder()
+        .setCustomId('otherChangeViewToDetailed_'+userId)
+        .setLabel('cambiar vista')
+        .setStyle('Primary');
+    if(position) button.setCustomId('otherChangeViewToDetailed_'+`${userId}_`+position)
+
+    const actionRow = new ActionRowBuilder()
+        .addComponents(button);
+
+    return { ...embed, components: [actionRow] }
+
+
+}
+
+function addButtonsForOtherCards( cards, position, embed, userId){
+    const buttonNext = new ButtonBuilder()
+        .setCustomId('nextOtherCard_'+userId)
+        .setLabel('Next')
+        .setStyle('Primary');
+
+    const buttonPrevious = new ButtonBuilder()
+        .setCustomId('previousOtherCard_'+userId)
+        .setLabel('Previous')
+        .setStyle('Primary');
+        
+    const buttonBack = new ButtonBuilder()
+        .setCustomId('otherChangeViewToList_'+userId)
+        .setLabel('cambiar vista')
+        .setStyle('Primary');
+
+        if(position == 0) buttonPrevious.setDisabled(true)
+        if(position == cards.length - 1) buttonNext.setDisabled(true)
+    
+    const actionRow = new ActionRowBuilder()
+        .addComponents(buttonPrevious)
+        .addComponents(buttonBack)
+        .addComponents(buttonNext);
+    
+
+    return { ...embed, components: [actionRow] }
 }
