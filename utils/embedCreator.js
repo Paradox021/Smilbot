@@ -40,10 +40,10 @@ export async function createEmbedCard(color, card){
     
 }
 
-export function createEmbedListOfCards(color, cards){
+export function createEmbedListOfCards(color, cards, title){
     const embed = new EmbedBuilder()
         .setColor(color)
-        .setTitle("Your cards")
+        .setTitle(title)
         .setTimestamp()
         .setFooter({ text: `You have ${cards.length} cards`})
         .addFields(cards.map(card => {
@@ -91,7 +91,7 @@ export function createOpenCards(){
 
 export function createOpenOtherCards(user){
     const button = new ButtonBuilder()
-        .setCustomId('openOtherCards')
+        .setCustomId('openOtherCards_'+user.id)
         .setLabel(`show ${user.username}'s cards`)
         .setStyle('Primary');
 
