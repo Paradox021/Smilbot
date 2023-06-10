@@ -63,7 +63,7 @@ export async function createEmbedCardsDetailed(color, cards, position){
     const embed = new EmbedBuilder()
         .setColor(cardColors[cards[position].type])
         .setTitle(`${cards[position].name} - ${cards[position].count} cards`)
-        .setDescription(`${cards[position].description}\n${cards[position].type}\n${positionNumber} of ${cards.length}`)
+        .setDescription(`${cards[position].type}\n${cards[position].description}\n${positionNumber} of ${cards.length}`)
         .setImage(cards[position].imageUrl)
         .setTimestamp()
         .setFooter({ text: `Card by ${cards[position].author}`});
