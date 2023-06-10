@@ -1,4 +1,4 @@
-import { createEmbedCardsDetailed, createEmbedListOfCards, createEmbedMarketList} from "./embedCreator.js"
+import { createEmbedCardsDetailed, createEmbedListOfCards, createEmbedMarketList, createEmbedText } from "./embedCreator.js"
 import * as userService from "../services/userService.js"
 import * as marketService from "../services/marketService.js"
 import { ButtonBuilder, ActionRowBuilder } from "@discordjs/builders"
@@ -128,6 +128,10 @@ const openCards = async (interaction) => {
         username: interaction.user.username,
     }
     const cards = await userService.getMyCards(auxUser.discordId)
+    if(!cards){
+        interaction.reply(createEmbedText(0x00569D, 'This user has no cards'))
+        return
+    }
     const embed = await createEmbedListOfCards( 0x00569D, cards.cards, "Your cards")
     const message = await addButtonsForMyCardsList(embed) 
     interaction.reply( message )
@@ -136,6 +140,10 @@ const openCards = async (interaction) => {
 const openOtherCards = async (interaction) => {
     const userId = interaction.customId.split('_')[1]
     const cards = await userService.getMyCards(userId)
+    if(!cards){
+        interaction.reply(createEmbedText(0x00569D, 'This user has no cards'))
+        return
+    }
     const username = await interaction.guild.members.fetch(userId)
     const embed = await createEmbedListOfCards( 0x00569D, cards.cards, `${username.user.username}'s cards`)
     const message = await addButtonsForOtherCardsList(embed, userId)

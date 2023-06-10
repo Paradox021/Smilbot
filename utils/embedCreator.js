@@ -167,4 +167,14 @@ export function createEmbedSongQueue(color, songs){
 
 }
 
+export function createEmbedHelp(color, commands){
+    const embed = new EmbedBuilder()
+        .setColor(color)
+        .setTitle("**Commands**")
+        .setTimestamp()
+        .setFooter({ text: `There are ${commands.length} commands`})
+        .addFields(commands)
+    return {embeds: [embed]}
+}
+
 
