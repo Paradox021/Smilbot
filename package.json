@@ -22,7 +22,7 @@
 
         "@discordjs/voice": "^0.16.0",
 
-        "@distube/spotify": "^1.4.2",
+        "@distube/spotify": "^1.5.1",
 
         "discord.js": "^14.11.0",
 
