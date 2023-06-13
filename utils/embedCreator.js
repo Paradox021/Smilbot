@@ -152,15 +152,23 @@ export function createEmbedMarketList(color, offers, position){
 }
 
 export function createEmbedSongQueue(color, songs){
+    // if songs.length > 10 then we only show the first 10 songs
+    const realLength = songs.length;
+    if(realLength > 10) songs = songs.slice(0, 11);
+
     const embed = new EmbedBuilder()
         .setColor(color)
         .setTitle("**Server Queue**")
         .setTimestamp()
-        .setFooter({ text: `There are ${songs.length} songs in the queue`})
+        .setFooter({ text: `There are ${realLength} songs in the queue`})
         .addFields(songs.map((song, i) => {
-            return {
+            if (i<10) return {
                 name: `${i === 0 ? 'Playing:' : i+"."} ${song.name}`,
                 value:`\`${song.formattedDuration}\``,
+            }
+            return {
+                name: ` `,
+                value:`\`${realLength - 10} more songs\``,
             }
         }))
     return {embeds: [embed]}
