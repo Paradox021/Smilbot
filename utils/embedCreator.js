@@ -125,7 +125,6 @@ export function createEmbedMarketList(color, offers, position){
     for (let i = position*10; i < position*10 + 10; i++) {
         if(offers[i]) ofertas.push(offers[i]);
     }
-
     const embed = new EmbedBuilder()
         .setColor(color)
         .setTitle('Market')
@@ -138,7 +137,7 @@ export function createEmbedMarketList(color, offers, position){
                 }
             }
         ))
-        .setFooter({ text: `Page ${positionNumber} of ${Math.floor(offers.length/10+1)}`});
+        .setFooter({ text: `Page ${positionNumber} of ${Math.floor(offers.length/11+1)}`});
 
     const buttonNext = new ButtonBuilder()
         .setCustomId('nextMarketPage')
@@ -150,11 +149,13 @@ export function createEmbedMarketList(color, offers, position){
         .setLabel('Previous')
         .setStyle('Primary');
 
+    if(position == 0) buttonPrevious.setDisabled(true);
+    if(position == Math.floor(offers.length/11)) buttonNext.setDisabled(true);
+
     const actionRow = new ActionRowBuilder()
-    if(position !== 0) actionRow.addComponents(buttonPrevious);
-    if(Math.floor(offers.length/10)!=0 && position !== Math.floor(offers.length/10) - 1) actionRow.addComponents(buttonNext);
-    const response = {embeds: [embed], ephemeral: true}
-    if(Math.floor(offers.length/10)!=0) response.components = [actionRow];
+        .addComponents(buttonPrevious)
+        .addComponents(buttonNext);
+    const response = {embeds: [embed], components:[actionRow], ephemeral: true}
     return response
 
 }
