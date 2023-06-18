@@ -40,6 +40,10 @@ const createCard = async (message, args) => {
     
     if (message.member.roles.cache.some(role => role.name === "admin") || message.member.roles.cache.some(role => role.name === "ADMIN")) {
         const card = await cardService.createCard(message, args)
+        if(!card){
+            message.channel.send(createEmbedText( 0xFF0000, "Error creating the card!"))
+            return
+        }
         const embed = await createEmbedCard( 0x00569D, card)
         message.channel.send(embed)
     } else {
