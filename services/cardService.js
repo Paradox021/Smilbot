@@ -64,8 +64,6 @@ const createCard = async (message, args) => {
 
     const newCard = await res.json()
 
-    console.log(newCard)
-
     return newCard
 }
 

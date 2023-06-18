@@ -2,6 +2,8 @@ import * as cardService from "../services/cardService.js"
 import * as userService from "../services/userService.js"
 import { createEmbedCard, createOpenCards, createEmbedText, createOpenOtherCards } from "../utils/embedCreator.js"
 
+const cardTypes = ["common", "rare", "epic", "legendary", "mythic"]
+
 const getCard = async (message) => {
     const userId = message.author.id
     const auxUser = {
@@ -25,6 +27,17 @@ const getCard = async (message) => {
 }
 
 const createCard = async (message, args) => {
+    
+    if(args.length < 3 || !message.attachments.first() || !message.attachments.first().contentType.startsWith('image')){
+        message.channel.send(createEmbedText( 0xFF0000, "You must specify the name, type, description and the image of the card!"))
+        return
+    }
+
+    if (!cardTypes.includes(args[1])) {
+        message.channel.send(createEmbedText( 0xFF0000, "You must specify a valid type! (common, rare, epic, legendary or mythic)"))
+        return
+    }
+    
     if (message.member.roles.cache.some(role => role.name === "admin") || message.member.roles.cache.some(role => role.name === "ADMIN")) {
         const card = await cardService.createCard(message, args)
         const embed = await createEmbedCard( 0x00569D, card)
