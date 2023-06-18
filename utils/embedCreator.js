@@ -1,11 +1,19 @@
 import { EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
 
 const cardColors = {
-    "common": 0xFFFFFF,
-    "rare": 0x0070DD,
-    "epic": 0xA335EE,
-    "legendary": 0xFF8000,
-    "mythic": 0xC45039
+    0: 0xFFFFFF,
+    1: 0x0070DD,
+    2: 0xA335EE,
+    3: 0xFF8000,
+    4: 0xC45039
+}
+
+const cardTypes = {
+    0: "common",
+    1: "rare",
+    2: "epic",
+    3: "legendary",
+    4: "mythic"
 }
 
 export function createEmbedSong(color, title, song){
@@ -24,12 +32,12 @@ export async function createEmbedCard(color, card){
     try{
         
         const embed = new EmbedBuilder()
-        .setColor(cardColors[card.type])
-        .setTitle(`${card.name} - ${card.type}`)
-        .setDescription(card.description)
-        .setImage(card.imageUrl)
-        .setTimestamp()
-        .setFooter({ text: `Card by ${card.author}`});
+            .setColor(cardColors[card.type])
+            .setTitle(`${card.name} - ${cardTypes[card.type]}`)
+            .setDescription(card.description)
+            .setImage(card.imageUrl)
+            .setTimestamp()
+            .setFooter({ text: `Card by ${card.author}`});
     
 
     return {embeds: [embed]}
@@ -48,7 +56,7 @@ export function createEmbedListOfCards(color, cards, title){
         .setFooter({ text: `You have ${cards.length} cards`})
         .addFields(cards.map(card => {
             return {
-                name: card.name,
+                name:`${card.name} - ${cardTypes[card.type]}`,
                 value:`${card.count} cards`,
             }
         }))
@@ -63,7 +71,7 @@ export async function createEmbedCardsDetailed(color, cards, position){
     const embed = new EmbedBuilder()
         .setColor(cardColors[cards[position].type])
         .setTitle(`${cards[position].name} - ${cards[position].count} cards`)
-        .setDescription(`${cards[position].type}\n${cards[position].description}\n${positionNumber} of ${cards.length}`)
+        .setDescription(`${cardTypes[cards[position].type]}\n${cards[position].description}\n${positionNumber} of ${cards.length}`)
         .setImage(cards[position].imageUrl)
         .setTimestamp()
         .setFooter({ text: `Card by ${cards[position].author}`});
