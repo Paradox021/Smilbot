@@ -10,6 +10,8 @@ export function handleButtons(interaction){
     if(interaction.customId.startsWith('changeViewToList')) changeViewToList(interaction);
     if(interaction.customId.startsWith('nextCard')) nextCard(interaction);
     if(interaction.customId.startsWith('previousCard')) previousCard(interaction);
+    if(interaction.customId.startsWith('firstCard')) firstCard(interaction);
+    if(interaction.customId.startsWith('lastCard')) lastCard(interaction);
     buttons.hasOwnProperty(interaction.customId) && buttons[interaction.customId](interaction); 
 }
 
@@ -58,6 +60,26 @@ const previousCard = async (interaction) => {
     const position = await interaction.message.embeds[0].description.split('\n')[2].split(' ')[0]
     const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, position-2, userId)
     const message = addButtonsForCardsDetailed(cards.cards, position-2, embed, userId)
+
+    interaction.update(message)
+}
+
+const firstCard = async (interaction) => {
+    const argsCustomId = interaction.customId.split('_');
+    const userId = argsCustomId[1];
+    const cards = await userService.getMyCards(userId)
+    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, 0, userId)
+    const message = addButtonsForCardsDetailed(cards.cards, 0, embed, userId)
+
+    interaction.update(message)
+}
+
+const lastCard = async (interaction) => {
+    const argsCustomId = interaction.customId.split('_');
+    const userId = argsCustomId[1];
+    const cards = await userService.getMyCards(userId)
+    const embed = await createEmbedCardsDetailed( 0x00569D, cards.cards, cards.cards.length-1, userId)
+    const message = addButtonsForCardsDetailed(cards.cards, cards.cards.length-1, embed, userId)
 
     interaction.update(message)
 }
@@ -162,14 +184,28 @@ function addButtonsForCardsDetailed( cards, position, embed, userId){
         .setCustomId('changeViewToList_'+userId)
         .setLabel('cambiar vista')
         .setStyle('Primary');
+    
+    const buttonFirst = new ButtonBuilder()
+        .setCustomId('firstCard_'+userId)
+        .setLabel('First')
+        .setStyle('Primary');
+
+    const buttonLast = new ButtonBuilder()
+        .setCustomId('lastCard_'+userId)
+        .setLabel('Last')
+        .setStyle('Primary');
 
         if(position == 0) buttonPrevious.setDisabled(true)
         if(position == cards.length - 1) buttonNext.setDisabled(true)
+        if(position == 0) buttonFirst.setDisabled(true)
+        if(position == cards.length - 1) buttonLast.setDisabled(true)
     
     const actionRow = new ActionRowBuilder()
+        .addComponents(buttonFirst)
         .addComponents(buttonPrevious)
         .addComponents(buttonBack)
-        .addComponents(buttonNext);
+        .addComponents(buttonNext)
+        .addComponents(buttonLast);
     
     return { ...embed, components: [actionRow] }
 }
