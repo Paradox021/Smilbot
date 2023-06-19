@@ -1,6 +1,6 @@
 import * as cardService from "../services/cardService.js"
 import * as userService from "../services/userService.js"
-import { createEmbedCard, createOpenCards, createEmbedText, createOpenOtherCards } from "../utils/embedCreator.js"
+import { createEmbedCard, createOpenCards, createEmbedText, createOpenOtherCards, createOpenAllCards } from "../utils/embedCreator.js"
 
 const cardTypes = ["common", "rare", "epic", "legendary", "mythic"]
 
@@ -66,5 +66,10 @@ const otherCards = async (message) => {
     message.reply(button)
 }
 
+const getAllCards = async (message) => {
+    const button = await createOpenAllCards()
+    message.reply(button)
+}
 
-export { getCard, createCard, myCards, otherCards }
+
+export { getCard, createCard, myCards, otherCards, getAllCards}
