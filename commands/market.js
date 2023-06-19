@@ -19,12 +19,14 @@ export const addOffer = async (message, args) => {
 
     const offer = {
         discordId: message.author.id,
+        username: message.author.username,
         serverId: message.guild.id,
         cardName: args[0],
         price: args[1],
     }
     const res = await marketService.addOffer(offer);
     if(res.status != 200){
+        console.log(res)
         message.reply(createEmbedText(0x00569D, 'there was an error adding the offer'))
         return
     }
@@ -38,13 +40,15 @@ export const buyOffer = async (message, args) => {
     }
     const offer = {
         discordId: message.author.id,
+        username: message.author.username,
         serverId: message.guild.id,
         offerId: args[0],
     }
     const res = await marketService.buyOffer(offer);
     if(res.status != 200){
         const error = await res.json()
-        message.reply(createEmbedText(0x00569D, error.error))
+        console.log(error)
+        message.reply(createEmbedText(0x00569D, 'there was an error buying the card'))
         return
     }
     message.reply(createEmbedText(0x00569D, 'Card bought'))
@@ -63,7 +67,8 @@ export const removeOffer = async (message, args) => {
     const res = await marketService.removeOffer(offer);
     if(res.status != 200){
         const error = await res.json()
-        message.reply(createEmbedText(0x00569D, error.error))
+        console.log(error)
+        message.reply(createEmbedText(0x00569D, 'there was an error removing the offer'))
         return
     }
     message.reply(createEmbedText(0x00569D, 'Offer removed'))
