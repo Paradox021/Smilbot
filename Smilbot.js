@@ -12,7 +12,7 @@ import { skip } from './commands/skip.js'
 import { queue } from './commands/queue.js'
 import { help } from './commands/help.js'
 import { dailyBalance } from './commands/dailyBalance.js'
-import { getCard , createCard, myCards, otherCards } from './commands/card.js'
+import { getCard , createCard, myCards, otherCards, getAllCards } from './commands/card.js'
 import { balance } from './commands/balance.js'
 import { createEmbedSong, createEmbedText } from './utils/embedCreator.js'
 import { getAllOffers, addOffer, buyOffer, removeOffer } from './commands/market.js'
@@ -43,6 +43,7 @@ const commands = {
     'buy': buyOffer,
     'remove': removeOffer,
     'show': otherCards,
+    'cards': getAllCards,
     'help': help
 }
 

@@ -69,7 +69,13 @@ const createCard = async (message, args) => {
     return newCard
 }
 
-export { getCard, createCard }
+const getAllCards = async () => {
+    const res = await fetch(process.env.BACKEND_URL+"/card")
+    const cards = await res.json()
+    return cards
+}
+
+export { getCard, createCard, getAllCards }
 
 
 

@@ -11,6 +11,12 @@ export const addOffer = async (message, args) => {
         message.reply(createEmbedText(0x00569D, 'Invalid arguments'))
         return
     }
+
+    if(isNaN(args[1]) || args[1] <= 0){
+        message.reply(createEmbedText(0x00569D, 'Invalid arguments'))
+        return
+    }
+
     const offer = {
         discordId: message.author.id,
         serverId: message.guild.id,
@@ -19,7 +25,7 @@ export const addOffer = async (message, args) => {
     }
     const res = await marketService.addOffer(offer);
     if(res.status != 200){
-        message.reply(createEmbedText(0x00569D, res.statusText))
+        message.reply(createEmbedText(0x00569D, 'there was an error adding the offer'))
         return
     }
     message.reply(createEmbedText(0x00569D, 'Offer added to the market'))
