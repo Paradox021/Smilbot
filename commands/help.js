@@ -42,6 +42,10 @@ const commands = [
        value:'This command shows the user\'s collection of cards.'
     },
     {
+      name:'.cards',
+      value:'This command displays all the available cards.'
+    },
+    {
        name:'.market',
        value:'This command displays all the available card offers in the market.'
     },
