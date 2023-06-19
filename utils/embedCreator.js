@@ -56,8 +56,8 @@ export function createEmbedListOfCards(color, cards, title){
         .setFooter({ text: `You have ${cards.length} cards`})
         .addFields(cards.map(card => {
             return {
-                name:`${card.name} - ${cardTypes[card.type]}`,
-                value:`${card.count} cards`,
+                name:!card.count?card.name:`${card.name} - ${cardTypes[card.type]}`,
+                value:card.count?`${card.count} cards`:`\`${cardTypes[card.type]}\``,
             }
         }))
 
@@ -70,8 +70,8 @@ export async function createEmbedCardsDetailed(color, cards, position){
     const positionNumber = Number(position) + 1;
     const embed = new EmbedBuilder()
         .setColor(cardColors[cards[position].type])
-        .setTitle(`${cards[position].name} - ${cards[position].count} cards`)
-        .setDescription(`${cardTypes[cards[position].type]}\n${cards[position].description}\n${positionNumber} of ${cards.length}`)
+        .setTitle(!cards[position].count?cards[position].name:`${cards[position].name} - ${cards[position].count} cards`)
+        .setDescription(`**\`${cardTypes[cards[position].type]}\`**\n${cards[position].description}\n${positionNumber} of ${cards.length}`)
         .setImage(cards[position].imageUrl)
         .setTimestamp()
         .setFooter({ text: `Card by ${cards[position].author}`});
@@ -192,6 +192,17 @@ export function createEmbedHelp(color, commands){
         .setFooter({ text: `There are ${commands.length} commands`})
         .addFields(commands)
     return {embeds: [embed]}
+}
+
+export function createOpenAllCards(){
+    const button = new ButtonBuilder()
+        .setCustomId('openAllCards')
+        .setLabel('show all cards')
+        .setStyle('Primary');
+
+    const actionRow = new ActionRowBuilder()
+        .addComponents(button);
+    return {components: [actionRow]}
 }
 
 
