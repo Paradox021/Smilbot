@@ -26,8 +26,8 @@ export const addOffer = async (message, args) => {
     }
     const res = await marketService.addOffer(offer);
     if(res.status != 200){
-        console.log(res)
-        message.reply(createEmbedText(0x00569D, 'there was an error adding the offer'))
+        const error = await res.json()
+        message.reply(createEmbedText(0x00569D, error.error))
         return
     }
     message.reply(createEmbedText(0x00569D, 'Offer added to the market'))
@@ -47,8 +47,7 @@ export const buyOffer = async (message, args) => {
     const res = await marketService.buyOffer(offer);
     if(res.status != 200){
         const error = await res.json()
-        console.log(error)
-        message.reply(createEmbedText(0x00569D, 'there was an error buying the card'))
+        message.reply(createEmbedText(0x00569D, error.error))
         return
     }
     message.reply(createEmbedText(0x00569D, 'Card bought'))
@@ -67,8 +66,7 @@ export const removeOffer = async (message, args) => {
     const res = await marketService.removeOffer(offer);
     if(res.status != 200){
         const error = await res.json()
-        console.log(error)
-        message.reply(createEmbedText(0x00569D, 'there was an error removing the offer'))
+        message.reply(createEmbedText(0x00569D, error.error))
         return
     }
     message.reply(createEmbedText(0x00569D, 'Offer removed'))
