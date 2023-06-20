@@ -133,7 +133,7 @@ export function createEmbedMarketList(color, offers, position){
         .addFields(ofertas.map(offer => {
             return {
                 name: offer._id.toString(),
-                value:`- ${offer.cardId.name} \n- ${offer.price} coins\n`,
+                value:`@${offer.seller.username}\n- ${offer.cardId.name} \n- ${offer.price} coins \n`,
                 }
             }
         ))
