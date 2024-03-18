@@ -4,7 +4,8 @@ const getUser = async (user) => {
     const res = await fetch(process.env.BACKEND_URL+"/user/id", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
         },
         body: JSON.stringify(user)
     })
@@ -14,7 +15,10 @@ const getUser = async (user) => {
 
 const addBalance = async (userId, amount) => {
     const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/balance/" + amount, {
-        method: "POST"
+        method: "POST",
+        headers:{
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
     })
     if (!res.ok) {
         console.log(await res.json())
@@ -26,7 +30,10 @@ const addBalance = async (userId, amount) => {
 
 const removeBalance = async (userId, amount) => {
     const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/balance/" + amount, {
-        method: "DELETE"
+        method: "DELETE",
+        headers:{
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
     })
     if (!res.ok) {
         console.log(await res.json())
@@ -38,7 +45,10 @@ const removeBalance = async (userId, amount) => {
 
 const addCard = async (userId, cardId) => {
     const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/card/" + cardId, {
-        method: "POST"
+        method: "POST",
+        headers:{
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
     })
     if (!res.ok) {
         console.log(await res.json())
@@ -50,7 +60,10 @@ const addCard = async (userId, cardId) => {
 
 const removeCard = async (userId, cardId) => {
     const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/card/" + cardId, {
-        method: "DELETE"
+        method: "DELETE",
+        headers:{
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
     })
     if (!res.ok) {
         console.log(await res.json())
@@ -62,13 +75,21 @@ const removeCard = async (userId, cardId) => {
 
 const dailyBalance = async (id) => {
     const res = await fetch(process.env.BACKEND_URL+"/user/" + id + "/dailyBalance", {
-        method: "POST"
+        method: "POST",
+        headers:{
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
     })
     return res
 }
 
 const getMyCards = async (userId) => {
-    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/cards")
+    const res = await fetch(process.env.BACKEND_URL+"/user/" + userId + "/cards", {
+        headers:{
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
+    
+    })
     if (!res.ok) {
         console.log(await res.json())
         return
