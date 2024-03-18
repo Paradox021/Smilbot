@@ -26,12 +26,33 @@ const getCard = () => {
     }
     return getCommonCard()
 }
+// Hacer la peticion enviando el token de autorizacion (BOT_BEARER_TOKEN)
+const getMythicCard = () => fetch(process.env.BACKEND_URL+"/card/mythic", {
+    headers: {
+        'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+    }
+}).then(res => res.json())
 
-const getMythicCard = () => fetch(process.env.BACKEND_URL+"/card/mythic").then(res => res.json())
-const getLegendaryCard = () => fetch(process.env.BACKEND_URL+"/card/legendary").then(res => res.json())
-const getEpicCard = () => fetch(process.env.BACKEND_URL+"/card/epic").then(res => res.json())
-const getRareCard = () => fetch(process.env.BACKEND_URL+"/card/rare").then(res => res.json())
-const getCommonCard = () => fetch(process.env.BACKEND_URL+"/card/common").then(res => res.json())
+const getLegendaryCard = () => fetch(process.env.BACKEND_URL+"/card/legendary", {
+    headers: {
+        'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+    }
+}).then(res => res.json())
+const getEpicCard = () => fetch(process.env.BACKEND_URL+"/card/epic", {
+    headers: {
+        'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+    }
+}).then(res => res.json())
+const getRareCard = () => fetch(process.env.BACKEND_URL+"/card/rare", {
+    headers: {
+        'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+    }
+}).then(res => res.json())
+const getCommonCard = () => fetch(process.env.BACKEND_URL+"/card/common", {
+    headers: {
+        'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+    }
+}).then(res => res.json())
 
 const createCard = async (message, args) => {
 
@@ -54,7 +75,10 @@ const createCard = async (message, args) => {
      
     const res = await fetch(process.env.BACKEND_URL+"/card", {
         method: "POST",
-        body: formData
+        body: formData,
+        headers: {
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
     })
 
     if (!res.ok) {
@@ -70,7 +94,12 @@ const createCard = async (message, args) => {
 }
 
 const getAllCards = async () => {
-    const res = await fetch(process.env.BACKEND_URL+"/card")
+    const res = await fetch(process.env.BACKEND_URL+"/card", {
+        headers: {
+            'Authorization': `Bearer ${process.env.BOT_BEARER_TOKEN}`
+        }
+    })
+    console.log(res)
     const cards = await res.json()
     return cards
 }
