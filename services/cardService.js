@@ -1,31 +1,21 @@
 import FormData from "form-data"
 import fetch from "node-fetch"
 import dotenv from "dotenv"
+import crypto from "crypto"
 
 dotenv.config()
 
-// 0.5% chance of getting a mythic card
-// 2% chance of getting a legendary card
-// 10% chance of getting a epic card
-// 30% chance of getting a rare card
-// 57.5% chance of getting a common card
 const getCard = () => {
-    const roll = Math.floor(Math.random() * 1000)
-    console.log("roll : ",roll)
-    if (roll < 5) {
-        return getMythicCard()
-    }
-    if (roll < 25) {
-        return getLegendaryCard()
-    }
-    if (roll < 125) {
-        return getEpicCard()
-    }
-    if (roll < 425) {
-        return getRareCard()
-    }
-    return getCommonCard()
-}
+    // Genera un número aleatorio entre 0 y 999
+    const roll = crypto.randomInt(0, 1000); 
+    console.log("roll: ", roll);
+
+    if (roll < 5) return getMythicCard(); // 0.5%
+    if (roll < 25) return getLegendaryCard(); // 2%
+    if (roll < 125) return getEpicCard(); // 10%
+    if (roll < 425) return getRareCard(); // 30%
+    return getCommonCard(); // 57.5%
+};
 
 const getMythicCard = () => fetch(process.env.BACKEND_URL+"/card/mythic").then(res => res.json())
 const getLegendaryCard = () => fetch(process.env.BACKEND_URL+"/card/legendary").then(res => res.json())
