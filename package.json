@@ -1,46 +1,29 @@
 {
-
-    "name": "smilbot",
-
-    "version": "1.0.0",
-
-    "description": "My First Discord Bot",
-
-    "main": "Smilbot.js",
-
-    "author": "Paradox21",
-
-    "scripts": {
-
-        "dev": "node ./Smilbot.js"
-
-    },
-
-    "dependencies": {
-
-        "@discordjs/opus": "^0.8.0",
-
-        "@discordjs/voice": "^0.16.0",
-
-        "@distube/spotify": "^2.0.2",
-
-        "@distube/youtube": "^1.0.2",
-
-        "discord.js": "^14.11.0",
-
-        "distube": "^5.0.2",
-
-        "dotenv": "^16.0.3",
-
-        "ffmpeg-static": "^4.4.1",
-
-        "libsodium-wrappers": "^0.7.10",
-
-        "node-fetch": "^2.6.11"
-
-    },
-
-    "type": "module"
-
+  "name": "smilbot-2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.13.7",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@discordjs/opus": "^0.10.0",
+    "@distube/spotify": "^2.0.2",
+    "@distube/youtube": "^1.0.4",
+    "@distube/ytdl-core": "^4.16.4",
+    "axios": "^1.8.1",
+    "discord.js": "^14.18.0",
+    "distube": "^5.0.6",
+    "dotenv": "^16.4.7"
+  }
 }
-
