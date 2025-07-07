@@ -89,7 +89,7 @@ export function createEmbedText(color, desc){
 export function createOpenCards(){
     const button = new ButtonBuilder()
         .setCustomId('openCards')
-        .setLabel('show my cards')
+        .setLabel('Show my cards')
         .setStyle('Primary');
 
     const actionRow = new ActionRowBuilder()
@@ -100,7 +100,7 @@ export function createOpenCards(){
 export function createOpenOtherCards(user){
     const button = new ButtonBuilder()
         .setCustomId('openOtherCards_'+user.id)
-        .setLabel(`show ${user.username}'s cards`)
+        .setLabel(`Show ${user.username}'s cards`)
         .setStyle('Primary');
 
     const actionRow = new ActionRowBuilder()
