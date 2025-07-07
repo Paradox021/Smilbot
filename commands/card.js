@@ -11,18 +11,18 @@ const getCard = async (message) => {
         username: message.author.username,
     }
     const user = await userService.getUser(auxUser)
-    const card = await cardService.getCard()
     if (user.balance < 100) {
         message.reply(createEmbedText( 0xFF0000, "You do not have enough money to do this!\nYou need 100 coins to buy a card!(Your balance is: " + user.balance + ")"))
         return
     }
-    if(!card.length){
+    const card = await cardService.getCard()
+    if(!card){
         message.reply(createEmbedText( 0xFF0000, "No cards available!"))
         return
     }
     await userService.removeBalance(userId, 100)
-    const embed = await createEmbedCard( 0x00569D, card[0])
-    await userService.addCard(userId, card[0]._id)
+    const embed = await createEmbedCard( 0x00569D, card)
+    await userService.addCard(userId, card._id)
     message.reply(embed)
 }
 
@@ -52,7 +52,8 @@ const createCard = async (message, args) => {
 }
 
 const myCards = async (message) => {
-    const button = await createOpenCards()
+    const user = message.author
+    const button = await createOpenOtherCards(user)
     message.reply(button)
 }
 

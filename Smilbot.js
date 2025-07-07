@@ -18,6 +18,8 @@ import { createEmbedSong, createEmbedText } from './utils/embedCreator.js'
 import { getAllOffers, addOffer, buyOffer, removeOffer } from './commands/market.js'
 import * as dotenv from 'dotenv'
 import { handleButtons } from './utils/buttons.js'
+import { YouTubePlugin } from '@distube/youtube'
+import fs from 'fs'
 
 dotenv.config()
 const prefix = '.'
@@ -56,16 +58,18 @@ const client = new Client({
     ]
 })
 client.distube = new DisTube(client, {
-    leaveOnEmpty: true,
-    leaveOnStop: true,
+    // leaveOnEmpty: true,
+    // leaveOnStop: true,
     emitNewSongOnly: true,
-    leaveOnFinish: true,
+    // leaveOnFinish: true,
     emitAddSongWhenCreatingQueue: false,
     emitAddListWhenCreatingQueue: false,
     plugins: [
         new SpotifyPlugin({
-            emitEventsAfterFetching: true
-          })
+          }),
+        new YouTubePlugin({
+            cookies: JSON.parse(fs.readFileSync('./cookies.json', 'utf8'))
+        }),
       ]
 },)
 
@@ -87,9 +91,22 @@ client.on("messageCreate", (message) => {
 
 client.distube
     .on('playSong', (queue, song) => queue.textChannel.send(createEmbedSong(0x00569D, 'Now playing', song)))
-    .on("empty", queue => queue.textChannel.send(createEmbedText(0x85C734, 'Channel is empty, leaving the channel')))
-    .on("finish", queue => queue.textChannel.send(createEmbedText(0x85C734, 'No more songs in queue, leaving the channel')))
-    .on("addSong", (queue, song) => queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song)))
+    .on("empty", queue => {
+        queue.textChannel.send(createEmbedText(0x85C734, 'Channel is empty, leaving the channel'));
+      })
+      .on("finish", queue => {
+        queue.textChannel.send(createEmbedText(0x85C734, 'No more songs in queue, leaving the channel'));
+      })
+      .on("addSong", (queue, song) => {
+        queue.textChannel.send(createEmbedSong(0x85C734, 'Song added', song));
+      })
+      .on("deleteQueue", queue => {
+        queue.voice.leave()
+      })
+      .on("ffmpegDebug", console.log)
+      .on('error', (error, queue) => {
+        console.log('DisTube error:', error)
+      });
 
 client.on('interactionCreate', async (interaction) => {
     handleButtons(interaction)
