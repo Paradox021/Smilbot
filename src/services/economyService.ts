@@ -16,7 +16,7 @@ export class EconomyService {
 
   async claimDailyBalance(discordId: string): Promise<ClaimResponse> {
     try {
-      const { data } = await this.http.post<ClaimResponse>('/economy/daily', { discordId });
+      const { data } = await this.http.post<ClaimResponse>(`/user/${discordId}/daily`);
       return data;
     } catch (err: any) {
       console.error('[EconomyService] claimDailyBalance error:', err);
