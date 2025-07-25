@@ -3,8 +3,8 @@ import { api } from './api';
 
 export interface ClaimResponse {
   ok: boolean;
-  balance: number;
-  message?: string;
+  balance?: number;
+  error?: string;
 }
 
 export interface BalanceResponse {
@@ -16,14 +16,12 @@ export class EconomyService {
 
   async claimDailyBalance(discordId: string): Promise<ClaimResponse> {
     try {
-      const { data } = await this.http.post<ClaimResponse>(`/user/${discordId}/daily`);
-      return data;
+      const { data } = await this.http.post<ClaimResponse>(`/user/${discordId}/dailyBalance`);
+      return { ok: true, balance: data.balance };
     } catch (err: any) {
       console.error('[EconomyService] claimDailyBalance error:', err);
-      const e = err.response?.data as ClaimResponse;
-      throw e?.message
-        ? e
-        : { ok: false, message: 'Error inesperado al reclamar daily balance.', balance: 0 };
+      const errorMessage = err.response?.data?.error || 'Error inesperado al reclamar daily balance.';
+      return { ok: false, error: errorMessage };
     }
   }
 
