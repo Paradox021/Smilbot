@@ -1,0 +1,18 @@
+import { Middleware } from '@/types/Middleware';
+import { userService } from '@/services/userService';
+
+export const checkUser: Middleware = async (message, client, args, next) => {
+  const user = {
+    discordId: message.author.id,
+    username: message.author.username,
+  };
+
+  try {
+    // This corresponds to the "get or create" logic from master
+    await userService.createUser(user);
+    await next();
+  } catch (error) {
+    console.error('[Middleware] checkUser error:', error);
+    message.reply('Error al verificar tu usuario. Intenta de nuevo más tarde.');
+  }
+};
