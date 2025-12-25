@@ -24,3 +24,27 @@ export function createEmbedSong(color: number, title: string, song: any) {
 export function createEmbedText(color: number, description: string) {
   return new EmbedBuilder().setColor(color).setDescription(description);
 }
+
+const RarityColors: Record<string, number> = {
+    common: 0x808080,    // Gray
+    rare: 0x0000FF,      // Blue
+    epic: 0x800080,      // Purple
+    legendary: 0xFFA500, // Orange/Gold
+    mythic: 0xFF0000,    // Red
+};
+
+/**
+ * Create an embed for a card
+ * @param card card to create the embed for
+ * @returns the created embed
+ */
+export function createEmbedCard(card: any) {
+    const color = RarityColors[card.type.toLowerCase()] || 0xFFFFFF; // Default to white if unknown
+
+    return new EmbedBuilder()
+        .setColor(color)
+        .setTitle(card.name)
+        .setDescription(card.description)
+        .setImage(card.image)
+        .setFooter({ text: `Rarity: ${card.type} | Author: ${card.author}` });
+}
