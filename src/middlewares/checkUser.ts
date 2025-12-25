@@ -8,7 +8,6 @@ export const checkUser: Middleware = async (message, client, args, next) => {
   };
 
   try {
-    // This corresponds to the "get or create" logic from master
     await userService.createUser(user);
     await next();
   } catch (error) {
