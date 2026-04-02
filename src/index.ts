@@ -23,7 +23,7 @@ const distube = new DisTube(client, {
   plugins: [
     new SpotifyPlugin(),
     new YouTubePlugin({
-      cookies: JSON.parse(fs.readFileSync('./src/cookies.json', 'utf8'))
+      // cookies: JSON.parse(fs.readFileSync('./src/cookies.json', 'utf8'))
     }),
   ],
 });

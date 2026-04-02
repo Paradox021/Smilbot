@@ -4,6 +4,10 @@ import { play } from './distube/play';
 import { stop } from './distube/stop';
 import { dailyBalance } from './economy/dailyBalance';
 import { getCard } from './economy/getCard';
+import { myCards } from './economy/myCards';
+import { show } from './economy/show';
+import { allCards } from './economy/allCards';
+import { market } from './economy/market';
 
 /**
  * List of all commands
@@ -13,5 +17,9 @@ export const commandList: Command[] = [
   play,
   stop,
   dailyBalance,
-  getCard
+  getCard,
+  myCards,
+  show,
+  allCards,
+  market,
 ];
