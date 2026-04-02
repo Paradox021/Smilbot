@@ -10,8 +10,8 @@ export const checkUser: Middleware = async (message, client, args, next) => {
   try {
     await userService.createUser(user);
     await next();
-  } catch (error) {
-    console.error('[Middleware] checkUser error:', error);
+  } catch (error:any) {
+    console.error('[Middleware] checkUser error:', error.data.error);
     message.reply('Error al verificar tu usuario. Intenta de nuevo más tarde.');
   }
 };

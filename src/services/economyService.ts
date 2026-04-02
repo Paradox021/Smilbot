@@ -19,7 +19,7 @@ export class EconomyService {
       const { data } = await this.http.post<ClaimResponse>(`/user/${discordId}/dailyBalance`);
       return { ok: true, balance: data.balance };
     } catch (err: any) {
-      console.error('[EconomyService] claimDailyBalance error:', err);
+      console.error('[EconomyService] claimDailyBalance error:', err.response.data.error);
       const errorMessage = err.response?.data?.error || 'Error inesperado al reclamar daily balance.';
       return { ok: false, error: errorMessage };
     }
