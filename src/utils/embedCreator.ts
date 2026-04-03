@@ -28,7 +28,7 @@ export function createEmbedText(color: number, description: string) {
 }
 
 const RarityColors: Record<CardType, number> = {
-  [CardType.Common]: 0x808080, // White/Gray
+  [CardType.Common]: 0x808080, // Gray
   [CardType.Rare]: 0x0070dd,   // Blue
   [CardType.Epic]: 0xa335ee,   // Purple
   [CardType.Legendary]: 0xff8000, // Orange
