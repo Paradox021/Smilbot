@@ -15,6 +15,8 @@ export const getCard: Command = {
         try {
             // Backend handles balance check and deduction
             const card = await cardService.buyRandomCard(discordId);
+
+            console.log(card);
             
             message.reply({
                 embeds: [createEmbedCard(card)]

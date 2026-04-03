@@ -1,13 +1,14 @@
 import { AxiosInstance } from 'axios';
 import { api } from './api';
+import { CardType } from '@/types/CardType';
 
 export interface Card {
   _id: string;
   name: string;
-  type: string;
+  type: CardType;
   description: string;
   author: string;
-  image: string;
+  imageUrl: string;
 }
 
 export class CardService {
