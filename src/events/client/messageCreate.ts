@@ -26,7 +26,7 @@ export const messageCreate: Event = {
     try {
       await executeWithMiddlewares(message, client, command, args);
     } catch (error) {
-      console.error(`Error ejecutando el comando ${command.name}:`, error);
+      console.error(`Error ejecutando el comando ${command.name}:`);
       await message.reply('Hubo un error al ejecutar ese comando.');
     }
   },

@@ -25,7 +25,7 @@ export async function handleInteraction(
     // Add more handlers here as needed...
 
   } catch (error) {
-    console.error('Error handling interaction:', error);
+    console.error('Error handling interaction:');
 
     // Try to respond with an error message
     try {

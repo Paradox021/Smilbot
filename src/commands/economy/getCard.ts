@@ -16,14 +16,12 @@ export const getCard: Command = {
             // Backend handles balance check and deduction
             const card = await cardService.buyRandomCard(discordId);
 
-            console.log(card);
-            
             message.reply({
                 embeds: [createEmbedCard(card)]
             });
 
         } catch (error: any) {
-            console.error(error);
+
             // Handle specific errors from backend if possible, e.g., insufficient funds
             const errorMessage = error.response?.data?.error || error.message || "Ocurrió un error inesperado.";
             message.reply({
