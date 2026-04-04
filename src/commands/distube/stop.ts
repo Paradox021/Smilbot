@@ -1,5 +1,5 @@
 import { Command } from '@/types/Command';
-import { createEmbedText } from '@/utils/embedCreator';
+import { createTextEmbed } from '@/components/embeds';
 import { Client, Message, GuildTextBasedChannel } from 'discord.js';
 import { canSendMessages } from '@/utils/typeGuards';
 
@@ -20,7 +20,7 @@ export const stop: Command = {
         if (!voiceChannel) {
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, `${message.author} you must be in a voice channel to do this!`)
+                    createTextEmbed(0xFF0000, `${message.author} you must be in a voice channel to do this!`)
                 ]
             });
             message.delete();
@@ -36,7 +36,7 @@ export const stop: Command = {
             // Envía un mensaje confirmando que se ha detenido la cola
             message.channel.send({
                 embeds: [
-                    createEmbedText(0x00569D, "Stopped the queue!")
+                    createTextEmbed(0x00569D, "Stopped the queue!")
                 ]
             });
             message.delete();
@@ -44,7 +44,7 @@ export const stop: Command = {
             console.error(e.name, e.message);
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, "An error occurred while trying to stop playback.")
+                    createTextEmbed(0xFF0000, "An error occurred while trying to stop playback.")
                 ]
             });
         }

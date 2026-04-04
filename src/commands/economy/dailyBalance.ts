@@ -1,6 +1,6 @@
 import { economyService } from '@/services/economyService';
 import { Command } from '@/types/Command';
-import { createEmbedText } from '@/utils/embedCreator';
+import { createTextEmbed } from '@/components/embeds';
 import { Colors, Message, Client } from 'discord.js';
 import { checkUser } from '@/middlewares/checkUser';
 
@@ -20,7 +20,7 @@ export const dailyBalance: Command = {
       if (!res.ok) {
         message.reply({
           embeds: [
-            createEmbedText(Colors.Red, res.error ?? 'Failed to claim your daily balance.'),
+            createTextEmbed(Colors.Red, res.error ?? 'Failed to claim your daily balance.'),
           ],
         });
         return;
@@ -28,7 +28,7 @@ export const dailyBalance: Command = {
 
       message.reply({
         embeds: [
-          createEmbedText(
+          createTextEmbed(
             Colors.Blurple,
             `You have claimed your daily balance!\nYour new balance is: ${res.balance}`
           ),

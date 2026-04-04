@@ -6,7 +6,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 import { PaginationState, createPaginationButtons, getPageItems } from '@/components/pagination';
-import { MarketOffer } from '@/components/embeds/MarketEmbeds';
+import { MarketOffer } from '@/services/marketService';
 
 /**
  * Button and select menu custom ID prefixes for market

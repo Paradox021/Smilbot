@@ -1,6 +1,6 @@
 import { userService } from '@/services/userService';
 import { Command } from '@/types/Command';
-import { createEmbedText } from '@/utils/embedCreator';
+import { createTextEmbed } from '@/components/embeds';
 import { Colors, Message, Client } from 'discord.js';
 import { checkUser } from '@/middlewares/checkUser';
 
@@ -20,7 +20,7 @@ export const balance: Command = {
 
       message.reply({
         embeds: [
-          createEmbedText(
+          createTextEmbed(
             Colors.Gold,
             `💰 **${message.author.username}**, your current balance is: **${user.balance}** coins`
           ),
@@ -29,7 +29,7 @@ export const balance: Command = {
     } catch (err: any) {
       message.reply({
         embeds: [
-          createEmbedText(Colors.Red, 'An error occurred while fetching your balance.'),
+          createTextEmbed(Colors.Red, 'An error occurred while fetching your balance.'),
         ],
       });
     }

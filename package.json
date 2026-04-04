@@ -21,7 +21,7 @@
     "@discordjs/opus": "^0.10.0",
     "@distube/spotify": "^2.0.2",
     "@distube/youtube": "^1.0.4",
-    "@distube/ytdl-core": "^4.16.4",
+    "@distube/ytdl-core": "^4.16.12",
     "axios": "^1.8.1",
     "discord.js": "^14.18.0",
     "distube": "^5.0.6",

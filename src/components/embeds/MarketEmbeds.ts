@@ -1,26 +1,8 @@
 import { EmbedBuilder } from 'discord.js';
 import { PaginationState, getPageItems } from '@/components/pagination';
+import { MarketOffer } from '@/services/marketService';
 
-/**
- * Market offer interface
- */
-export interface MarketOffer {
-  _id: string;
-  seller: {
-    discordId: string;
-    username: string;
-  };
-  cardId: {
-    _id: string;
-    name: string;
-    type: string | number;
-    description: string;
-    author: string;
-    image?: string;
-  };
-  price: number;
-  serverId: string;
-}
+
 
 /**
  * Creates an embed showing market offers with pagination

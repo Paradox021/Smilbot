@@ -1,5 +1,5 @@
 import { Command } from '@/types/Command';
-import { createEmbedText, createEmbedCard } from '@/utils/embedCreator';
+import { createTextEmbed, createCardEmbed } from '@/components/embeds';
 import { Colors, Message, Client } from 'discord.js';
 import { cardService } from '@/services/cardService';
 import { checkUser } from '@/middlewares/checkUser';
@@ -17,7 +17,7 @@ export const getCard: Command = {
             const card = await cardService.buyRandomCard(discordId);
 
             message.reply({
-                embeds: [createEmbedCard(card)]
+                embeds: [createCardEmbed(card)]
             });
 
         } catch (error: any) {
@@ -25,7 +25,7 @@ export const getCard: Command = {
             // Handle specific errors from backend if possible, e.g., insufficient funds
             const errorMessage = error.response?.data?.error || error.message || "An unexpected error occurred.";
             message.reply({
-                embeds: [createEmbedText(Colors.Red, errorMessage)]
+                embeds: [createTextEmbed(Colors.Red, errorMessage)]
             });
         }
     }

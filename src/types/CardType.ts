@@ -14,3 +14,12 @@ export const CardTypeLabel: Record<CardType, string> = {
   [CardType.Legendary]: 'Legendary',
   [CardType.Mythic]: 'Mythic',
 };
+
+/** Embed colors for each card type */
+export const CardTypeColor: Record<CardType, number> = {
+  [CardType.Common]: 0x808080,    // Gray
+  [CardType.Rare]: 0x0070dd,      // Blue
+  [CardType.Epic]: 0xa335ee,      // Purple
+  [CardType.Legendary]: 0xff8000, // Orange
+  [CardType.Mythic]: 0xc45039,    // Red
+};

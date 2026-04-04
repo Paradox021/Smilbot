@@ -1,18 +1,9 @@
 import { EmbedBuilder } from 'discord.js';
 import { Card } from '@/services/cardService';
-import { CardType, CardTypeLabel } from '@/types/CardType';
+import { CardType, CardTypeLabel, CardTypeColor } from '@/types/CardType';
 import { PaginationState, getPageItems } from '@/components/pagination';
 
-/**
- * Color mapping for card rarities
- */
-export const CARD_COLORS: Record<CardType, number> = {
-  [CardType.Common]: 0x808080, // Gray
-  [CardType.Rare]: 0x0070dd,   // Blue
-  [CardType.Epic]: 0xa335ee,   // Purple
-  [CardType.Legendary]: 0xff8000, // Orange
-  [CardType.Mythic]: 0xc45039, // Red
-};
+
 
 /**
  * Extended card interface with optional count for user cards
@@ -25,7 +16,7 @@ export interface CardWithCount extends Card {
  * Gets the color for a card based on its type
  */
 export function getCardColor(card: CardWithCount): number {
-  return CARD_COLORS[card.type] ?? 0xffffff;
+  return CardTypeColor[card.type] ?? 0xffffff;
 }
 
 /**
@@ -118,4 +109,21 @@ export function createCardDetailedEmbed(
  */
 export function createTextEmbed(color: number, text: string): EmbedBuilder {
   return new EmbedBuilder().setColor(color).setDescription(text);
+}
+
+/**
+ * Creates an embed showing a single card (used for buy/pull results)
+ * @param card Card to display
+ * @returns EmbedBuilder
+ */
+export function createCardEmbed(card: Card): EmbedBuilder {
+  const color = CardTypeColor[card.type] ?? 0xffffff;
+  const label = CardTypeLabel[card.type] ?? 'Unknown';
+
+  return new EmbedBuilder()
+    .setColor(color)
+    .setTitle(card.name)
+    .setDescription(card.description)
+    .setImage(card.imageUrl)
+    .setFooter({ text: `Rarity: ${label} | Author: ${card.author}` });
 }

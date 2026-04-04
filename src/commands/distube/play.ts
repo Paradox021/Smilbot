@@ -1,5 +1,5 @@
 import { Command } from '@/types/Command';
-import { createEmbedText } from '@/utils/embedCreator';
+import { createTextEmbed } from '@/components/embeds';
 import { Client, GuildTextBasedChannel, Message } from 'discord.js';
 import { canSendMessages } from '@/utils/typeGuards';
 
@@ -20,7 +20,7 @@ export const play: Command = {
         if (!voiceChannel) {
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, `${message.author} you must be in a voice channel to do this!`)
+                    createTextEmbed(0xFF0000, `${message.author} you must be in a voice channel to do this!`)
                 ]
             });
             message.delete();
@@ -31,7 +31,7 @@ export const play: Command = {
         if (!query) {
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, "Please provide the name or URL of the song.")
+                    createTextEmbed(0xFF0000, "Please provide the name or URL of the song.")
                 ]
             });
             
@@ -55,7 +55,7 @@ export const play: Command = {
             console.error(e.name, e.message);
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, "An error occurred while trying to play the song.")
+                    createTextEmbed(0xFF0000, "An error occurred while trying to play the song.")
                 ]
             });
           }
