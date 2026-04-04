@@ -7,10 +7,6 @@ export interface ClaimResponse {
   error?: string;
 }
 
-export interface BalanceResponse {
-  balance: number;
-}
-
 export class EconomyService {
   constructor(private readonly http: AxiosInstance) {}
 
@@ -20,19 +16,8 @@ export class EconomyService {
       return { ok: true, balance: data.balance };
     } catch (err: any) {
       console.error('[EconomyService] claimDailyBalance error:', err.response.data.error);
-      const errorMessage = err.response?.data?.error || 'Error inesperado al reclamar daily balance.';
+      const errorMessage = err.response?.data?.error || 'Unexpected error while claiming daily balance.';
       return { ok: false, error: errorMessage };
-    }
-  }
-
-  async getBalance(discordId: string): Promise<BalanceResponse> {
-    try {
-      const { data } = await this.http.get<BalanceResponse>(`/economy/balance/${discordId}`);
-      return data;
-    } catch (err: any) {
-      console.error('[EconomyService] getBalance error:', err);
-      const e = err.response?.data as { message: string };
-      throw { message: e?.message || 'Error inesperado al obtener balance.' };
     }
   }
 }

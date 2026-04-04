@@ -10,7 +10,7 @@ import { checkUser } from '@/middlewares/checkUser';
 export const dailyBalance: Command = {
     name: 'dailybalance',
     aliases: ['db'],
-    description: 'Reclama tu saldo diario de 100 monedas',
+    description: 'Claim your daily 100 coins',
     middlewares: [checkUser],
     execute: async (message: Message, args: string[], client: Client) => {
       const discordId = message.author.id;
@@ -20,7 +20,7 @@ export const dailyBalance: Command = {
       if (!res.ok) {
         message.reply({
           embeds: [
-            createEmbedText(Colors.Red, res.error ?? 'Error al reclamar tu daily balance.'),
+            createEmbedText(Colors.Red, res.error ?? 'Failed to claim your daily balance.'),
           ],
         });
         return;

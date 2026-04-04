@@ -8,7 +8,7 @@ import { canSendMessages } from '@/utils/typeGuards';
  */
 export const stop: Command = {
     name: 'stop',
-    description: 'Detiene la reproducción de la cola',
+    description: 'Stops the current queue playback',
     aliases: ['leave'],
     async execute(message: Message, args: string[], client: Client) {
         const voiceChannel = message.member?.voice.channel;
@@ -44,7 +44,7 @@ export const stop: Command = {
             console.error(e.name, e.message);
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, "Ocurrió un error al intentar detener la reproducción.")
+                    createEmbedText(0xFF0000, "An error occurred while trying to stop playback.")
                 ]
             });
         }

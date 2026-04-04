@@ -46,6 +46,21 @@ export class UserService {
    * @param discordId Discord user ID
    * @returns User data with populated card objects
    */
+  /**
+   * Gets a user by their Discord ID
+   * @param discordId Discord user ID
+   * @returns User data
+   */
+  async getUser(discordId: string): Promise<User> {
+    const { data } = await this.http.get<User>(`/user/${discordId}`);
+    return data;
+  }
+
+  /**
+   * Gets a user's cards with full card details
+   * @param discordId Discord user ID
+   * @returns User data with populated card objects
+   */
   async getMyCards(discordId: string): Promise<UserWithCards | null> {
     try {
       const { data } = await this.http.get<UserWithCards>(`/user/${discordId}/cards`);

@@ -7,7 +7,7 @@ import { checkUser } from '@/middlewares/checkUser';
 export const getCard: Command = {
     name: 'getcard',
     aliases: ['buycard', 'gc'],
-    description: 'Compra una carta aleatoria por 100 monedas',
+    description: 'Buy a random card for 100 coins',
     middlewares: [checkUser],
     execute: async (message: Message, args: string[], client: Client) => {
         const discordId = message.author.id;
@@ -23,7 +23,7 @@ export const getCard: Command = {
         } catch (error: any) {
 
             // Handle specific errors from backend if possible, e.g., insufficient funds
-            const errorMessage = error.response?.data?.error || error.message || "Ocurrió un error inesperado.";
+            const errorMessage = error.response?.data?.error || error.message || "An unexpected error occurred.";
             message.reply({
                 embeds: [createEmbedText(Colors.Red, errorMessage)]
             });

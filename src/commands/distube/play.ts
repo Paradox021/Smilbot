@@ -8,7 +8,7 @@ import { canSendMessages } from '@/utils/typeGuards';
  */
 export const play: Command = {
     name: 'play',
-    description: 'Reproduce una canción de YouTube o Spotify',
+    description: 'Plays a song from YouTube or Spotify',
     aliases: ['p'],
     async execute(message: Message, args: string[], client: Client) {
         const voiceChannel = message.member?.voice.channel;
@@ -55,7 +55,7 @@ export const play: Command = {
             console.error(e.name, e.message);
             message.channel.send({
                 embeds: [
-                    createEmbedText(0xFF0000, "Ocurrió un error al intentar reproducir la canción.")
+                    createEmbedText(0xFF0000, "An error occurred while trying to play the song.")
                 ]
             });
           }

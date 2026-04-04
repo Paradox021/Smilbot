@@ -6,7 +6,7 @@ import { Message, Client } from 'discord.js';
  */
 export const ping: Command = {
   name: 'ping',
-  description: 'Responde con Pong!',
+  description: 'Replies with Pong!',
   execute: async (message: Message, args: string[], client: Client) => {
     await message.reply('Pong!');
   },
