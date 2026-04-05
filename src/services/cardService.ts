@@ -1,0 +1,28 @@
+import { AxiosInstance } from 'axios';
+import { api } from './api';
+import { CardType } from '@/types/CardType';
+
+export interface Card {
+  _id: string;
+  name: string;
+  type: CardType;
+  description: string;
+  author: string;
+  imageUrl: string;
+}
+
+export class CardService {
+  constructor(private readonly http: AxiosInstance) {}
+
+  async buyRandomCard(discordId: string): Promise<Card> {
+    const { data } = await this.http.post<Card>(`/user/${discordId}/card/random`);
+    return data;
+  }
+
+  async getAllCards(): Promise<Card[]> {
+    const { data } = await this.http.get<Card[]>('/card');
+    return data;
+  }
+}
+
+export const cardService = new CardService(api);

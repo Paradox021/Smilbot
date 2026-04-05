@@ -1,4 +1,4 @@
-node_modules
 .env
-cookies.js
-cookies.json
+node_modules
+dist
+src/cookies.json
