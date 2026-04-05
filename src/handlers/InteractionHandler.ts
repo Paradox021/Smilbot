@@ -1,4 +1,4 @@
-import { Interaction, Client } from 'discord.js';
+import { Interaction, Client, MessageFlags } from 'discord.js';
 import { handleCardInteraction } from './CardInteractions';
 import { handleMarketInteraction } from './MarketInteractions';
 
@@ -33,12 +33,12 @@ export async function handleInteraction(
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp({
             content: 'An error occurred while processing your request.',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         } else {
           await interaction.reply({
             content: 'An error occurred while processing your request.',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         }
       }

@@ -3,6 +3,7 @@ import {
   StringSelectMenuInteraction,
   Client,
   Interaction,
+  MessageFlags,
 } from 'discord.js';
 import { marketService, MarketOffer } from '@/services/marketService';
 import {
@@ -42,7 +43,7 @@ export async function handleOpenMarket(
   if (!serverId) {
     await interaction.reply({
       content: 'This command can only be used in a server.',
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
     return;
   }
@@ -52,7 +53,7 @@ export async function handleOpenMarket(
   if (offers.length === 0) {
     await interaction.reply({
       embeds: [createEmptyMarketEmbed()],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
     return;
   }
@@ -64,7 +65,7 @@ export async function handleOpenMarket(
   await interaction.reply({
     embeds: [embed],
     components,
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
   });
 }
 
@@ -156,7 +157,7 @@ export async function handleMarketBuy(
   if (offer.seller.discordId === buyerId) {
     await interaction.reply({
       embeds: [createPurchaseResultEmbed(null, false, 'You cannot buy your own card.')],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
     return;
   }

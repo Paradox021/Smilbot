@@ -1,4 +1,4 @@
-import { ButtonInteraction, Client } from 'discord.js';
+import { ButtonInteraction, Client, MessageFlags } from 'discord.js';
 import { userService } from '@/services/userService';
 import { cardService, Card } from '@/services/cardService';
 import {
@@ -63,7 +63,7 @@ export async function handleOpenCards(
   if (cards.length === 0) {
     await interaction.reply({
       embeds: [createTextEmbed(0x00569d, isAllCards ? 'No cards exist yet.' : 'This user has no cards.')],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
     return;
   }
@@ -75,7 +75,7 @@ export async function handleOpenCards(
   await interaction.reply({
     embeds: [embed],
     components: buttons,
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
   });
 }
 
