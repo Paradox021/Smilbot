@@ -11,6 +11,6 @@ export function createSongEmbed(color: number, title: string, song: any): EmbedB
   return new EmbedBuilder()
     .setColor(color)
     .setTitle(title)
-    .setDescription(`[${song.name}](${song.url}) - \`${song.formattedDuration}\``)
+    .setDescription(`[${song.name || song.title}](${song.url}) - \`${song.formattedDuration || song.duration}\``)
     .setThumbnail(song.thumbnail || null);
 }

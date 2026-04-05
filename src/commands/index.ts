@@ -1,7 +1,7 @@
 import { Command } from '@/types/Command';
 import { ping } from './fun/ping';
-import { play } from './distube/play';
-import { stop } from './distube/stop';
+import { play } from './player/play';
+import { stop } from './player/stop';
 import { balance } from './economy/balance';
 import { dailyBalance } from './economy/dailyBalance';
 import { getCard } from './economy/getCard';

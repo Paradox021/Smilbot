@@ -1,10 +1,8 @@
 import 'dotenv/config';
 import { Client, GatewayIntentBits } from 'discord.js';
 import { registerAllEvents } from '@/events';
-import { DisTube } from 'distube';
-import { SpotifyPlugin } from '@distube/spotify';
-import { YouTubePlugin } from '@distube/youtube';
-import fs from 'fs'; 
+import { Player } from 'discord-player';
+import { DefaultExtractors } from '@discord-player/extractor';
 
 const client = new Client({
   intents: [
@@ -15,26 +13,19 @@ const client = new Client({
   ],
 });
 
-// Crea la instancia de DisTube con la configuración deseada
-const distube = new DisTube(client, {
-  emitNewSongOnly: true,
-  emitAddSongWhenCreatingQueue: false,
-  emitAddListWhenCreatingQueue: false,
-  plugins: [
-    new SpotifyPlugin(),
-    new YouTubePlugin({
-      // cookies: JSON.parse(fs.readFileSync('./src/cookies.json', 'utf8'))
-    }),
-  ],
-});
+// Crea la instancia de discord-player
+const player = new Player(client);
 
-client.distube = distube;
+// Carga los extractores por defecto (YouTube, Spotify, SoundCloud...)
+player.extractors.loadMulti(DefaultExtractors);
 
-if (!client.distube) {
-  throw new Error('DisTube instance is not set up.');
+client.player = player;
+
+if (!client.player) {
+  throw new Error('Player instance is not set up.');
 }
 
-// Registra todos los eventos (tanto del cliente como de DisTube) en una sola llamada
-registerAllEvents(client, distube);
+// Registra todos los eventos en una sola llamada
+registerAllEvents(client, player);
 
 client.login(process.env.TOKEN).catch(console.error);

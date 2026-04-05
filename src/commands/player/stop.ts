@@ -28,15 +28,17 @@ export const stop: Command = {
         }
 
         try {
-            const distube = client.distube;
+            const queue = client.player.nodes.get(message.guildId!);
 
-            // Llama a la función stop de DisTube
-            distube.stop(message);
+            if (queue) {
+                // Elimina la cola y desconecta el bot (cumpliendo tu requerimiento)
+                queue.delete();
+            }
             
             // Envía un mensaje confirmando que se ha detenido la cola
             message.channel.send({
                 embeds: [
-                    createTextEmbed(0x00569D, "Stopped the queue!")
+                    createTextEmbed(0x00569D, "Stopped the queue and left the channel!")
                 ]
             });
             message.delete();

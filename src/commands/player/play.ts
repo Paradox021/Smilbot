@@ -40,13 +40,15 @@ export const play: Command = {
         }
 
         try {
-            const distube = client.distube;
-      
-            // Llama a la función play de DisTube
-            await distube.play(voiceChannel, query, {
-              member: message.member,
-              textChannel: message.channel as GuildTextBasedChannel,
-              message,
+            const player = client.player;
+            
+            // Llama a la función play de discord-player
+            await player.play(voiceChannel, query, {
+                nodeOptions: {
+                    metadata: {
+                        channel: message.channel
+                    }
+                }
             });
       
             // Elimina el mensaje original para limpiar el canal
