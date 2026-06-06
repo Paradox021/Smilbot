@@ -1,5 +1,6 @@
 import { economyService } from '@/services/economyService';
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { createTextEmbed } from '@/components/embeds';
 import { Colors, Message, Client } from 'discord.js';
 import { checkUser } from '@/middlewares/checkUser';
@@ -11,6 +12,7 @@ export const dailyBalance: Command = {
     name: 'dailybalance',
     aliases: ['db'],
     description: 'Claim your daily 100 coins',
+    categories: [CommandCategory.ECONOMY],
     middlewares: [checkUser],
     execute: async (message: Message, args: string[], client: Client) => {
       const discordId = message.author.id;

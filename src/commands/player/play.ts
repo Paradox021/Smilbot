@@ -1,4 +1,5 @@
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { createTextEmbed } from '@/components/embeds';
 import { Client, GuildTextBasedChannel, Message } from 'discord.js';
 import { canSendMessages } from '@/utils/typeGuards';
@@ -10,6 +11,7 @@ export const play: Command = {
     name: 'play',
     description: 'Plays a song from YouTube or Spotify',
     aliases: ['p'],
+    categories: [CommandCategory.PLAYER],
     async execute(message: Message, args: string[], client: Client) {
         const voiceChannel = message.member?.voice.channel;
           

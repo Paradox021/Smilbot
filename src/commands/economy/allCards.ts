@@ -1,5 +1,6 @@
 import { Message, Client } from 'discord.js';
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { cardService } from '@/services/cardService';
 import { createOpenAllCardsButton } from '@/components/buttons';
 import { createTextEmbed } from '@/components/embeds';
@@ -12,6 +13,7 @@ export const allCards: Command = {
   name: 'allcards',
   aliases: ['cards'],
   description: 'Shows all available cards in the game',
+  categories: [CommandCategory.ECONOMY],
 
   async execute(message: Message, args: string[], client: Client): Promise<void> {
     // Get all cards

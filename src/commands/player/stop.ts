@@ -1,4 +1,5 @@
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { createTextEmbed } from '@/components/embeds';
 import { Client, Message, GuildTextBasedChannel } from 'discord.js';
 import { canSendMessages } from '@/utils/typeGuards';
@@ -10,6 +11,7 @@ export const stop: Command = {
     name: 'stop',
     description: 'Stops the current queue playback',
     aliases: ['leave'],
+    categories: [CommandCategory.PLAYER],
     async execute(message: Message, args: string[], client: Client) {
         const voiceChannel = message.member?.voice.channel;
         

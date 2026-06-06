@@ -9,6 +9,7 @@ import { myCards } from './economy/myCards';
 import { show } from './economy/show';
 import { allCards } from './economy/allCards';
 import { market } from './economy/market';
+import { help } from './utility/help';
 
 /**
  * List of all commands
@@ -24,4 +25,5 @@ export const commandList: Command[] = [
   show,
   allCards,
   market,
+  help,
 ];

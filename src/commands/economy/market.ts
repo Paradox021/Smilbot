@@ -1,5 +1,6 @@
 import { Message, Client } from 'discord.js';
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { marketService } from '@/services/marketService';
 import { createOpenMarketButton } from '@/components/buttons';
 import { createTextEmbed } from '@/components/embeds';
@@ -13,6 +14,7 @@ export const market: Command = {
   name: 'market',
   aliases: ['shop'],
   description: 'Opens the card marketplace',
+  categories: [CommandCategory.ECONOMY],
   middlewares: [checkUser],
 
   async execute(message: Message, args: string[], client: Client): Promise<void> {

@@ -1,6 +1,7 @@
 import { Interaction, Client, MessageFlags } from 'discord.js';
 import { handleCardInteraction } from './CardInteractions';
 import { handleMarketInteraction } from './MarketInteractions';
+import { handleHelpInteraction } from './HelpInteractions';
 
 /**
  * Main interaction handler that routes to specific handlers
@@ -12,8 +13,14 @@ export async function handleInteraction(
   client: Client
 ): Promise<void> {
   try {
-    // Try card interactions first
+    if (interaction.isButton() || interaction.isStringSelectMenu()) {
+      // Try help interactions
+      const helpHandled = await handleHelpInteraction(interaction, client);
+      if (helpHandled) return;
+    }
+
     if (interaction.isButton()) {
+      // Try card interactions
       const handled = await handleCardInteraction(interaction, client);
       if (handled) return;
     }
@@ -50,3 +57,4 @@ export async function handleInteraction(
 
 export { handleCardInteraction } from './CardInteractions';
 export { handleMarketInteraction } from './MarketInteractions';
+export { handleHelpInteraction } from './HelpInteractions';

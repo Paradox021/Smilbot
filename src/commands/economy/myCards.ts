@@ -1,5 +1,6 @@
 import { Message, Client } from 'discord.js';
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { userService } from '@/services/userService';
 import { createOpenCardsButton } from '@/components/buttons';
 import { createTextEmbed } from '@/components/embeds';
@@ -13,6 +14,7 @@ export const myCards: Command = {
   name: 'mycards',
   aliases: [],
   description: 'Shows your card collection',
+  categories: [CommandCategory.ECONOMY],
   middlewares: [checkUser],
 
   async execute(message: Message, args: string[], client: Client): Promise<void> {

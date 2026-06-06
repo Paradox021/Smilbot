@@ -1,4 +1,5 @@
 import { Command } from '@/types/Command';
+import { CommandCategory } from '@/types/CommandCategory';
 import { createTextEmbed, createCardEmbed } from '@/components/embeds';
 import { Colors, Message, Client } from 'discord.js';
 import { cardService } from '@/services/cardService';
@@ -8,6 +9,7 @@ export const getCard: Command = {
     name: 'getcard',
     aliases: ['buycard', 'gc'],
     description: 'Buy a random card for 100 coins',
+    categories: [CommandCategory.ECONOMY],
     middlewares: [checkUser],
     execute: async (message: Message, args: string[], client: Client) => {
         const discordId = message.author.id;
