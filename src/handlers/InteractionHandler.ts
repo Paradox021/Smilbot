@@ -20,7 +20,6 @@ export async function handleInteraction(
     }
 
     if (interaction.isButton()) {
-      // Try card interactions
       const handled = await handleCardInteraction(interaction, client);
       if (handled) return;
     }
