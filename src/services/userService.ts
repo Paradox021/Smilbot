@@ -10,6 +10,7 @@ export interface User {
   lastDaily: string;
   dailyStreak?: number;
   maxDailyStreak?: number;
+  previousMaxStreak?: number;
   totalDailiesClaimed?: number;
   totalCoinsEarned?: number;
   totalCoinsSpent?: number;
@@ -27,6 +28,7 @@ export interface UserWithCards {
   lastDaily: string;
   dailyStreak?: number;
   maxDailyStreak?: number;
+  previousMaxStreak?: number;
   totalDailiesClaimed?: number;
   totalCoinsEarned?: number;
   totalCoinsSpent?: number;
@@ -39,6 +41,7 @@ export interface UserStats {
   balance: number;
   dailyStreak: number;
   maxDailyStreak: number;
+  previousMaxStreak?: number;
   totalDailiesClaimed: number;
   totalCoinsEarned: number;
   totalCoinsSpent: number;

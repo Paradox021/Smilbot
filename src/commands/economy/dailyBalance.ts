@@ -31,10 +31,11 @@ export const dailyBalance: Command = {
       const streak = res.dailyStreak ?? 0;
       const prevStreak = res.previousStreak ?? 0;
       const prevMaxStreak = res.previousMaxStreak ?? 0;
+      const isNewRecord = res.isNewRecord ?? (prevMaxStreak > 0 && streak === prevMaxStreak + 1);
 
       let description = `💰 You have claimed your daily **100** coins!\nYour new balance is: **${res.balance}** coins.`;
 
-      if (streak >= 2 && streak > prevMaxStreak) {
+      if (isNewRecord) {
         description += `\n\n🎉 **New Personal Record!** You've reached a streak of **${streak}** consecutive days!`;
       } else if (streak >= 2) {
         description += `\n\n🔥 **Daily Streak:** **${streak}** days in a row!`;

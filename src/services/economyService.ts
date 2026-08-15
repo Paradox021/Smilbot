@@ -8,6 +8,7 @@ export interface ClaimResponse {
   previousStreak?: number;
   maxDailyStreak?: number;
   previousMaxStreak?: number;
+  isNewRecord?: boolean;
   totalDailiesClaimed?: number;
   error?: string;
 }
@@ -25,6 +26,7 @@ export class EconomyService {
         previousStreak: data.previousStreak,
         maxDailyStreak: data.maxDailyStreak,
         previousMaxStreak: data.previousMaxStreak,
+        isNewRecord: data.isNewRecord,
         totalDailiesClaimed: data.totalDailiesClaimed,
       };
     } catch (err: any) {
