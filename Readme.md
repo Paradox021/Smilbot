@@ -49,8 +49,9 @@ Los comandos del bot utilizan el prefijo `.` por defecto.
 - `ping`: Comprueba que el bot está activo y su latencia de respuesta.
 
 ### 💰 Economía
-- `dailybalance`: Reclama 100 monedas diariamente (cada 23 horas).
+- `dailybalance`: Reclama 100 monedas diariamente (cada 23 horas) y acumula rachas.
 - `balance`: Consulta tu saldo actual.
+- `stats`: Muestra tu perfil económico completo, rachas diarias, récord histórico y actividad.
 
 ### 🃏 Sistema de Cartas
 - `getcard`: Compra y obtiene una carta aleatoria por 100 monedas (tasas de aparición según rareza).
@@ -66,3 +67,18 @@ Los comandos del bot utilizan el prefijo `.` por defecto.
 - `play <canción/URL>`: Reproduce música en tu canal de voz.
 - `stop`: Detiene la reproducción y desconecta al bot.
 - *(Nota: Las otras funciones de música están en desarrollo).*
+
+---
+
+## 📚 Documentación Completa
+
+Para consultar la documentación técnica completa, arquitectura interna y especificaciones de endpoints, visita la carpeta [**`docs/`**](./docs/README.md):
+
+* 🏛️ [Arquitectura del Bot](./docs/architecture/overview.md)
+* 🎨 [Componentes y UI Interactiva](./docs/architecture/ui-and-components.md)
+* 💰 [Economía, Rachas y Analíticas](./docs/features/economy-and-streaks.md)
+* 🃏 [Cartas y Sistema Gacha](./docs/features/cards-and-gacha.md)
+* 🏪 [Mercado Libre](./docs/features/market.md)
+* 🎵 [Reproductor de Música](./docs/features/music.md)
+* 📖 [Referencia de Comandos](./docs/commands/economy.md)
+* 🔌 [Integración con Backend API](./docs/integrations/backend-api.md)
