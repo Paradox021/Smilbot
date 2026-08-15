@@ -8,6 +8,12 @@ export interface User {
   balance: number;
   cards: string[];
   lastDaily: string;
+  dailyStreak?: number;
+  maxDailyStreak?: number;
+  totalDailiesClaimed?: number;
+  totalCoinsEarned?: number;
+  totalCoinsSpent?: number;
+  cardsOpenedCount?: number;
 }
 
 /**
@@ -19,6 +25,12 @@ export interface UserWithCards {
   balance: number;
   cards: Card[];
   lastDaily: string;
+  dailyStreak?: number;
+  maxDailyStreak?: number;
+  totalDailiesClaimed?: number;
+  totalCoinsEarned?: number;
+  totalCoinsSpent?: number;
+  cardsOpenedCount?: number;
 }
 
 export class UserService {
