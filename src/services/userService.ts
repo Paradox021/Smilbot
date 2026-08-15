@@ -33,6 +33,20 @@ export interface UserWithCards {
   cardsOpenedCount?: number;
 }
 
+export interface UserStats {
+  discordId: string;
+  username: string;
+  balance: number;
+  dailyStreak: number;
+  maxDailyStreak: number;
+  totalDailiesClaimed: number;
+  totalCoinsEarned: number;
+  totalCoinsSpent: number;
+  cardsCount: number;
+  cardsOpenedCount: number;
+  marketSalesCount: number;
+}
+
 export class UserService {
   constructor(private readonly http: AxiosInstance) {}
 
@@ -53,11 +67,6 @@ export class UserService {
   }
 
 
-  /**
-   * Gets a user's cards with full card details
-   * @param discordId Discord user ID
-   * @returns User data with populated card objects
-   */
   /**
    * Gets a user by their Discord ID
    * @param discordId Discord user ID
@@ -80,6 +89,16 @@ export class UserService {
     } catch {
       return null;
     }
+  }
+
+  /**
+   * Gets aggregated statistics for a user
+   * @param discordId Discord user ID
+   * @returns User stats
+   */
+  async getUserStats(discordId: string): Promise<UserStats> {
+    const { data } = await this.http.get<UserStats>(`/user/${discordId}/stats`);
+    return data;
   }
 }
 

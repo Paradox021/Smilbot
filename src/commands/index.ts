@@ -9,6 +9,7 @@ import { myCards } from './economy/myCards';
 import { show } from './economy/show';
 import { allCards } from './economy/allCards';
 import { market } from './economy/market';
+import { stats } from './economy/stats';
 import { help } from './utility/help';
 
 /**
@@ -20,6 +21,7 @@ export const commandList: Command[] = [
   stop,
   balance,
   dailyBalance,
+  stats,
   getCard,
   myCards,
   show,
