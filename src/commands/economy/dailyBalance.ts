@@ -31,23 +31,34 @@ export const dailyBalance: Command = {
       const streak = res.dailyStreak ?? 0;
       const prevStreak = res.previousStreak ?? 0;
       const prevMaxStreak = res.previousMaxStreak ?? 0;
+      const maxStreak = res.maxDailyStreak ?? Math.max(streak, prevMaxStreak);
       const isNewRecord = res.isNewRecord ?? (prevMaxStreak > 0 && streak === prevMaxStreak + 1);
 
-      let description = `💰 You have claimed your daily **100** coins!\nYour new balance is: **${res.balance}** coins.`;
+      const lines = [
+        `💰 Claimed **100** daily coins!`,
+        ``,
+        `• **Balance:** **${res.balance?.toLocaleString() ?? 0}** coins`,
+      ];
+
+      if (streak >= 2) {
+        let streakInfo = `🔥 **${streak}** days`;
+        if (maxStreak > streak) {
+          streakInfo += ` *(Record: ${maxStreak})*`;
+        }
+        lines.push(`• **Daily Streak:** ${streakInfo}`);
+      }
 
       if (isNewRecord) {
-        description += `\n\n🎉 **New Personal Record!** You've reached a streak of **${streak}** consecutive days!`;
-      } else if (streak >= 2) {
-        description += `\n\n🔥 **Daily Streak:** **${streak}** days in a row!`;
+        lines.push(``, `🎉 **New Personal Record!** You've surpassed your previous record of **${prevMaxStreak}** days!`);
       } else if (streak === 1 && prevStreak >= 2) {
-        description += `\n\n💔 Your previous streak of **${prevStreak}** days was broken. Starting a new streak today!`;
+        lines.push(``, `💔 Your previous streak of **${prevStreak}** days was broken. Starting fresh!`);
       }
 
       message.reply({
         embeds: [
           createTextEmbed(
             Colors.Blurple,
-            description
+            lines.join('\n')
           ),
         ],
       });
