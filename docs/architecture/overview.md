@@ -33,7 +33,7 @@ graph TD
 ```text
 src/
 ├── commands/         # Definición de comandos organizados por categorías
-│   ├── economy/      # balance, dailyBalance, stats, getCard, myCards, show, allCards, market
+│   ├── economy/      # balance, dailyBalance, stats, top, getCard, myCards, show, allCards, market
 │   ├── fun/          # ping
 │   ├── player/       # play, stop
 │   └── utility/      # help

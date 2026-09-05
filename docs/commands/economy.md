@@ -29,7 +29,12 @@ Todos los comandos de esta categoría requieren el prefijo `.` por defecto y apl
 ---
 
 ## 3. `.stats` / `.profile` / `.estadisticas`
-* **Descripción:** Muestra tu perfil económico completo, historial de ganancias/gastos, rachas diarias y conteo de cartas.
+* **Descripción:** Muestra tu perfil económico completo, historial de ganancias/gastos, rachas diarias, conteo de cartas y métricas de suerte en gacha (`🎲 Gacha Luck`).
+* **Secciones mostradas:**
+  * **💰 Economy:** Balance actual, total ganado y total gastado históricamente.
+  * **🔥 Daily Streaks:** Racha diaria actual, récord histórico y total de reclamos.
+  * **🃏 Cards & Market:** Cartas en inventario, sobres/tiradas abiertas y ventas realizadas en el mercado.
+  * **🎲 Gacha Luck:** Calificación de suerte (`Godly Luck`, `Lucky`, `Average`, `Unlucky`, `Cursed`), delta porcentual frente a la media (`+38.5%`) y desglose de cartas obtenidas (`18⚪ 11🟢 4🟣 2🟡 0🔴`). Si el usuario tiene menos de 20 tiradas, informa que requiere un mínimo de 20 tiradas para calcular su suerte.
 * **Sintaxis:**
   ```text
   .stats             (Ver tus propias estadísticas)
@@ -85,3 +90,20 @@ Todos los comandos de esta categoría requieren el prefijo `.` por defecto y apl
   .market
   .shop
   ```
+
+---
+
+## 9. `.top` / `.topluck` / `.lucktop`
+* **Descripción:** Consulta el ranking (Top 5) de los jugadores con mayor o menor suerte en las tiradas gacha.
+* **Cálculo justo y neutralización:** El backend neutraliza compras y ventas de mercado ($\text{Cartas Gacha} = \text{Inventario} - \text{Compras} + \text{Ventas}$) para medir únicamente la suerte de sobres abiertos.
+* **Requisito mínimo:** Los usuarios deben tener al menos **20 tiradas** registradas para clasificar en el ranking.
+* **Sintaxis:**
+  ```text
+  .top                     (Muestra el Top 5 con más suerte por defecto)
+  .topluck                 (Alias directo para el Top 5 con más suerte)
+  .top luck                (Top 5 con más suerte)
+  .top luck worst          (Top 5 más desafortunados / con peor suerte)
+  .topluck worst           (Alias directo para ver los más desafortunados)
+  ```
+* **Alias adicionales:** `.leaderboard`, `.ranking`.
+

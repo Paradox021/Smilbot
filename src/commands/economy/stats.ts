@@ -4,6 +4,51 @@ import { CommandCategory } from '@/types/CommandCategory';
 import { createTextEmbed } from '@/components/embeds';
 import { Colors, EmbedBuilder, Message, Client } from 'discord.js';
 import { checkUser } from '@/middlewares/checkUser';
+import { UserLuckStats } from '@/services/leaderboardService';
+
+function getLuckTierEmoji(tierCode?: string): string {
+  switch (tierCode) {
+    case 'GODLY':
+      return '🌟';
+    case 'LUCKY':
+      return '🍀';
+    case 'AVERAGE':
+      return '⚖️';
+    case 'UNLUCKY':
+      return '🌧️';
+    case 'CURSED':
+      return '💀';
+    default:
+      return '🎲';
+  }
+}
+
+function formatLuckField(luck?: UserLuckStats, cardsOpenedCount: number = 0): string {
+  if (!luck) {
+    return '• Rating: ⏳ No gacha pulls yet (minimum 20 required)';
+  }
+
+  const pulls = luck.totalCards ?? cardsOpenedCount;
+  if (!luck.eligibleForLeaderboard || pulls < 20) {
+    return pulls > 0
+      ? `• Rating: ⏳ Not enough pulls yet (${pulls}/20 required)`
+      : '• Rating: ⏳ No gacha pulls yet (minimum 20 required)';
+  }
+
+  const emoji = getLuckTierEmoji(luck.tierCode);
+  const bd = luck.breakdown;
+  const breakdownStr = bd
+    ? `${bd.common ?? 0}⚪  ${bd.rare ?? 0}🟢  ${bd.epic ?? 0}🟣  ${bd.legendary ?? 0}🟡  ${bd.mythic ?? 0}🔴`
+    : '';
+
+  const lines = [
+    `• Rating: ${emoji} **${luck.tier}** (${luck.luckDelta})`,
+  ];
+  if (breakdownStr) {
+    lines.push(`• Breakdown: ${breakdownStr}`);
+  }
+  return lines.join('\n');
+}
 
 /**
  * Stats command to check user's economic profile, streaks, and activity
@@ -55,6 +100,11 @@ export const stats: Command = {
               `• Market Sales: **${userStats.marketSalesCount ?? 0}**`,
             ].join('\n'),
             inline: true,
+          },
+          {
+            name: '🎲 Gacha Luck',
+            value: formatLuckField(userStats.luck, userStats.cardsOpenedCount ?? 0),
+            inline: false,
           }
         )
         .setFooter({ text: 'Smilbot Economy' })

@@ -1,6 +1,9 @@
 import { AxiosInstance, AxiosError } from 'axios';
 import { api } from './api';
 import { Card } from './cardService';
+import { UserLuckStats } from './leaderboardService';
+
+export { UserLuckStats };
 
 export interface User {
   discordId: string;
@@ -48,6 +51,7 @@ export interface UserStats {
   cardsCount: number;
   cardsOpenedCount: number;
   marketSalesCount: number;
+  luck?: UserLuckStats;
 }
 
 export class UserService {

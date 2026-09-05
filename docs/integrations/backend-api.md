@@ -15,7 +15,40 @@ La variable de entorno `BACKEND_URL` en `.env` define el host base de la API.
 | `/user` | `POST` | Crea un usuario inicial si no existe | `{ ok: boolean }` (409 si ya existe) |
 | `/user/:discordId` | `GET` | Obtiene los datos básicos del usuario | `User` (balance, id, username) |
 | `/user/:discordId/cards` | `GET` | Obtiene el usuario con cartas pobladas | `UserWithCards` |
-| `/user/:discordId/stats` | `GET` | Estadísticas acumuladas y rachas | `UserStats` |
+| `/user/:discordId/stats` | `GET` | Estadísticas acumuladas, rachas y suerte gacha | `UserStats` (con objeto `luck`) |
+
+#### Formato de Respuesta de `GET /user/:discordId/stats`:
+```json
+{
+  "discordId": "123456789012345678",
+  "username": "Gamer123",
+  "balance": 650,
+  "dailyStreak": 11,
+  "maxDailyStreak": 11,
+  "previousMaxStreak": 10,
+  "totalDailiesClaimed": 42,
+  "totalCoinsEarned": 5400,
+  "totalCoinsSpent": 4750,
+  "cardsCount": 35,
+  "cardsOpenedCount": 30,
+  "marketSalesCount": 5,
+  "luck": {
+    "totalCards": 35,
+    "luckPercentage": 138.5,
+    "luckDelta": "+38.5%",
+    "tier": "Lucky",
+    "tierCode": "LUCKY",
+    "eligibleForLeaderboard": true,
+    "breakdown": {
+      "common": 18,
+      "rare": 11,
+      "epic": 4,
+      "legendary": 2,
+      "mythic": 0
+    }
+  }
+}
+```
 
 ### B. Economía y Rachas (`economyService.ts`)
 
@@ -49,6 +82,39 @@ La variable de entorno `BACKEND_URL` en `.env` define el host base de la API.
 | :--- | :--- | :--- | :--- |
 | `/market/:serverId/offers` | `GET` | Ofertas activas en un servidor | `MarketOfferWithCard[]` |
 | `/market/:serverId/offers/:offerId/buy` | `POST` | Compra de una oferta | `{ ok: boolean, message: string }` |
+
+### E. Tablas de Clasificación y Rankings (`leaderboardService.ts`)
+
+| Endpoint | Método | Query Params | Descripción | Retorno |
+| :--- | :--- | :--- | :--- | :--- |
+| `/leaderboard/luck` | `GET` | `order` (`'desc'` \| `'asc'`), `minPulls` (default: `20`), `limit` (default: `5`) | Ranking de suerte gacha neutralizado contra mercado | `LuckLeaderboardResponse` |
+
+#### Formato de Respuesta de `GET /leaderboard/luck`:
+```json
+{
+  "order": "desc",
+  "minPulls": 20,
+  "leaderboard": [
+    {
+      "rank": 1,
+      "discordId": "111222333444555666",
+      "username": "LuckyGamer",
+      "totalCards": 45,
+      "luckPercentage": 145.2,
+      "luckDelta": "+45.2%",
+      "tier": "Godly Luck",
+      "tierCode": "GODLY",
+      "breakdown": {
+        "common": 20,
+        "rare": 14,
+        "epic": 7,
+        "legendary": 3,
+        "mythic": 1
+      }
+    }
+  ]
+}
+```
 
 ---
 

@@ -35,3 +35,29 @@ Al ejecutar `.getcard` (o alias `.gc`, `.buycard`), el usuario intercambia **100
 ## 4. Catálogo Global (`.allcards`)
 
 Permite explorar todas las cartas creadas en el juego sin importar si el usuario las posee o no, funcionando como una enciclopedia interactiva para los coleccionistas.
+
+---
+
+## 5. Métricas de Suerte en Gacha y Leaderboard (`.stats` / `.topluck`)
+
+Para fomentar la competitividad sana y permitir a los usuarios medir su fortuna en los sobres abiertos, el backend calcula métricas de suerte agregadas:
+
+### A. Neutralización Contra el Mercado
+Para evitar distorsiones donde un jugador compre cartas de alta rareza en el mercado para inflar artificialmente su suerte, la métrica se neutraliza contablemente:
+$$\text{Cartas de Gacha Reales} = \text{Inventario} - \text{Compras en Mercado} + \text{Ventas en Mercado}$$
+
+### B. Escala de Clasificación (Tiers de Suerte)
+La suerte se evalúa comparando la distribución real obtenida frente al valor probabilístico esperado:
+
+| Tier Code | Nombre en Pantalla | Icono | Rango Delta (%) |
+| :--- | :--- | :--- | :--- |
+| `GODLY` | **Godly Luck** | 🌟 | Mayor a `+40.0%` |
+| `LUCKY` | **Lucky** | 🍀 | `+15.0%` a `+40.0%` |
+| `AVERAGE` | **Average** | ⚖️ | `-15.0%` a `+15.0%` |
+| `UNLUCKY` | **Unlucky** | 🌧️ | `-30.0%` a `-15.0%` |
+| `CURSED` | **Cursed** | 💀 | Menor a `-30.0%` |
+
+### C. Requisito de Calificación para Leaderboard
+* Se requiere un mínimo de **20 tiradas gacha** (`minPulls = 20`) para evitar anomalías estadísticas producidas por cuentas con pocas tiradas.
+* El comando `.top luck` (o `.topluck`) muestra a los 5 jugadores con mayor suerte, mientras que `.top luck worst` (o `.topluck worst`) muestra a los 5 más desafortunados.
+

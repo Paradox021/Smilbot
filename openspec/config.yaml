@@ -1,0 +1,23 @@
+schema: spec-driven
+
+# Project context
+context: |
+  Smilbot: Bot de Discord modular en TypeScript (Discord.js).
+  Toda la documentación técnica y funcional reside estrictamente en la carpeta docs/.
+  Estructura de docs/: architecture/, features/, commands/, integrations/.
+
+# Per-artifact rules
+rules:
+  proposal:
+    - Explicitly mention which files in docs/ will be created or updated.
+  tasks:
+    - Always include a dedicated task to update or create documentation in docs/ for any feature, command, integration, or schema change.
+
+# Per-operation guidance
+operations:
+  apply:
+    guidance:
+      - Never consider a change or task complete until documentation in docs/ has been written and verified.
+  archive:
+    guidance:
+      - Verify that docs/ changes are consistent and committed before archiving.
