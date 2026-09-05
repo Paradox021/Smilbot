@@ -41,8 +41,6 @@ export const top: Command = {
       normalizedArgs.includes('worst') ||
       normalizedArgs.includes('bad') ||
       normalizedArgs.includes('cursed') ||
-      normalizedArgs.includes('salados') ||
-      normalizedArgs.includes('mala') ||
       normalizedArgs.includes('asc');
 
     const order: 'asc' | 'desc' = isWorst ? 'asc' : 'desc';
